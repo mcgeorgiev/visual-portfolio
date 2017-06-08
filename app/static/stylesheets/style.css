@@ -1,0 +1,29 @@
+.overlay {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    opacity: 0;
+    background-color: #dddddd;
+    transition: .5s ease;
+    width: 100%;
+}
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+.image-container img {
+    position: block;
+}
+.image-container:hover .overlay {
+    opacity:0.9;
+}
+.label {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
