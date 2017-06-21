@@ -1,10 +1,11 @@
-from flask import render_template, redirect, flash, url_for
+from flask import render_template, redirect, flash, url_for, request, jsonify
 from app import app, db
 from app.models import User, Image
 import re
 from app.forms import AddForm, CreateForm
 from werkzeug.utils import secure_filename
 import datetime
+from PIL import Image
 
 
 
@@ -23,10 +24,23 @@ def index():
         image["title"] = item.title
         image["description"] = item.description
         image["url"] = item.url
+        image["slug"] = item.slug
         data["images"].append(image)
 
     return render_template('index.html', data=data)
 
+@app.route('/crop', methods=['GET', 'POST'])
+def crop_image():
+    return render_template('crop.html')
+
+@app.route('/crop_points')
+def crop_points():
+    data = request.args
+    filename = data["image"]
+    img = Image.open(app.config["BASEDIR"] + app.config['UPLOAD_FOLDER'] + "/" + filename)
+    cropped_img = img.crop((data["x1"], data["y1"], data["x2"], data["y2"]))
+    cropped_img.save("img2.jpg")
+    return jsonify("OK")
 
 @app.route('/create', methods=['GET', 'POST'])
 def create_account():

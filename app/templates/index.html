@@ -3,10 +3,13 @@
 
     {% for image in data.images %}
     <div class="image-container">
+
+        <a href="{{ image.slug }}">
          <img src="static/{{ image.url }}" alt="thumbnail" class="image">
           <div class="overlay">
             <div class="label">{{ image.title }}</div>
           </div>
+        </a>
     </div>
     {% endfor %}
 
