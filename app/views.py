@@ -2,8 +2,10 @@ from flask import render_template, redirect, flash, url_for
 from app import app, db
 from app.models import User, Image
 import re
-from app.forms import AddForm
+from app.forms import AddForm, CreateForm
 from werkzeug.utils import secure_filename
+import datetime
+
 
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
@@ -26,6 +28,17 @@ def index():
     return render_template('index.html', data=data)
 
 
+@app.route('/create', methods=['GET', 'POST'])
+def create_account():
+    form = CreateForm()
+    if form.validate_on_submit():
+        user = User(name=form.name.data, email=form.email.data, password=form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('create.html', create_form=form)
+
+
 @app.route('/add', methods=['GET', 'POST'])
 def add_image():
     data = {}
@@ -34,26 +47,30 @@ def add_image():
 
     form = AddForm()
     if form.validate_on_submit():
-        print "YAY!"
-        picture = secure_filename(form.picture.file.filename)
+        filename = None
+        try:
+            filename = secure_filename(form.picture.data.filename)
+        except:
+            pass
 
+        if filename is None:
+            flash('No selected file')
+        elif allowed_file(filename):
+            form.picture.data.save(app.config["BASEDIR"] + app.config['UPLOAD_FOLDER'] + "/" + filename)
+            title = form.title.data
+            image = Image(title=title,
+                slug=slugify(title),
+                description=form.description.data,
+                timestamp=datetime.datetime.now(),
+                url=filename,
+                user_id=owner.id)
+            db.session.add(image)
+            db.session.commit()
+            flash('Added image successfully')
+        else:
+            flash('Incorrect file type')
 
-    # if add_form.submit.data:
-    #     if edit_form.about.data.strip():
-    #          user = g.user
-    #          user.about = edit_form.about.data
-    #          db.session.add(user)
-    #          db.session.commit()
-    # elif edit_form.picture_submit.data:
-    #     file = edit_form.picture.data
-    #     if file.filename == '':
-    #         flash('No selected file')
-    #         return redirect(request.url)
-    #
-    #     if file and allowed_file(file.filename):
-    #         filename = secure_filename(file.filename)
-    #         file.save(app.config["BASEDIR"] + app.config['UPLOAD_FOLDER'] + "/" + filename)
-    #         return redirect(url_for('uploaded_file', filename=filename))
+    #   return redirect(url_for('uploaded_file', filename=filename))
 
     return render_template("add.html",
                             add_form=form, data=data)
@@ -83,3 +100,7 @@ def slugify(text, delim=u'-'):
         if word:
             result.append(word)
     return unicode(delim.join(result))
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
