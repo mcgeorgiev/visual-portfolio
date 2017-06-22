@@ -15,12 +15,17 @@
       height: 400px;
       }
     </style>
+
+    <meta id="image_url" data-name="{{ data.url }}">
+
     <div id="demo-basic">
     </div>
     <br>
     <br>
      <button type="button" id="crop-button">Crop</button>
      <script type="text/javascript">
+     var image_url = $("#image_url").attr("data-name");
+     alert(image_url)
      $(function() {
        var basic = $('#demo-basic').croppie({
          viewport: {
@@ -29,14 +34,14 @@
          }
        });
        basic.croppie('bind', {
-         url: 'static/C29_b.jpg',
+         url: 'static/'+ image_url,
          points: [0, 0, 500, 500]
        });
       $('#crop-button').on('click', function() {
         var points = $('#demo-basic').croppie('get').points;
         alert(points);
         $.getJSON('/crop_points', {
-           image: "C29_b.jpg",
+           image: image_url,
            x1: points[0],
            y1: points[1],
            x2: points[2],

@@ -5,7 +5,7 @@ import re
 from app.forms import AddForm, CreateForm
 from werkzeug.utils import secure_filename
 import datetime
-from PIL import Image
+from PIL import Image as ImagePIL
 
 
 
@@ -29,18 +29,53 @@ def index():
 
     return render_template('index.html', data=data)
 
+
 @app.route('/crop', methods=['GET', 'POST'])
 def crop_image():
-    return render_template('crop.html')
+    data = {}
+    data["url"] = "C29_b.jpg"
+    return render_template('crop.html', data=data)
+
 
 @app.route('/crop_points')
 def crop_points():
     data = request.args
     filename = data["image"]
-    img = Image.open(app.config["BASEDIR"] + app.config['UPLOAD_FOLDER'] + "/" + filename)
-    cropped_img = img.crop((data["x1"], data["y1"], data["x2"], data["y2"]))
-    cropped_img.save("img2.jpg")
+    points = (int(data["x1"]), int(data["y1"]), int(data["x2"]), int(data["y2"]))
+    create_cropped_image(filename, points)
     return jsonify("OK")
+
+
+def create_cropped_image(filename, points=None):
+    path = app.config["BASEDIR"] + app.config['UPLOAD_FOLDER'] + "/"
+    img = ImagePIL.open(path + filename)
+    edge_size = 500
+    if img.size[0] <= edge_size or img.size[1] <= edge_size:
+        # if the size of the image is smaller than 500px:
+        # make the shortest side the the size of the image
+        edge_size = img.size[0] if img.size[0] < img.size[1] else img.size[1]
+
+    if not points:
+        half_the_width = img.size[0] / 2
+        half_the_height = img.size[1] / 2
+        points = (
+                    half_the_width - (edge_size/2),
+                    half_the_height - (edge_size/2),
+                    half_the_width + (edge_size/2),
+                    half_the_height + (edge_size/2)
+                 )
+
+    cropped_img = img.crop(points)
+    split_name = filename.split(".")
+    cropped_name = split_name[0] + "_cropped." + split_name[1]
+
+    # save the cropped image url
+    image = Image.query.filter_by(url=filename).first()
+    image.cropped_url = cropped_name
+    db.session.add(image)
+    db.session.commit()
+    cropped_img.save(path + cropped_name)
+
 
 @app.route('/create', methods=['GET', 'POST'])
 def create_account():

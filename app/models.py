@@ -41,6 +41,7 @@ class Image(db.Model):
     description = db.Column(db.String(256))
     timestamp = db.Column(db.DateTime)
     url = db.Column(db.String(256))
+    cropped_url = db.Column(db.String(256))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
