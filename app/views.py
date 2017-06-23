@@ -29,6 +29,9 @@ def index():
 
     return render_template('index.html', data=data)
 
+@app.route("/test")
+def test():
+    return render_template('test.html')
 
 @app.route('/crop', methods=['GET', 'POST'])
 def crop_image():

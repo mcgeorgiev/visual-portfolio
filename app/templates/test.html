@@ -1,0 +1,106 @@
+{% extends "base.html" %}]
+{% block content %}
+  <style>
+    /*body { font-family:Lucida Sans, Arial, Helvetica, Sans-Serif; font-size:13px; margin:20px;}
+    #main { width:960px; margin: 0px auto; border:solid 1px #b2b3b5; -moz-border-radius:10px; padding:20px; background-color:#f6f6f6;}
+    #header { text-align:center; border-bottom:solid 1px #b2b3b5; margin: 0 0 20px 0; }
+    fieldset { border:none; width:320px;}
+    legend { font-size:18px; margin:0px; padding:10px 0px; color:#b0232a; font-weight:bold;}
+    label { display:block; margin:15px 0 5px;}
+    input[type=text], input[type=password] { width:300px; padding:5px; border:solid 1px #000;}
+    .prev, .next { background-color:#b0232a; padding:5px 10px; color:#fff; text-decoration:none;}
+    .prev:hover, .next:hover { background-color:#000; text-decoration:none;}
+    .prev { float:left;}
+    .next { float:right;}*/
+    #steps { list-style:none; width:100%; overflow:hidden; margin:0px; padding:0px;}
+    #steps li {font-size:24px; float:left; padding:10px; color:#b0b1b3;}
+    #steps li span {font-size:11px; display:block;}
+    #steps li.current { color: red;}
+  </style>
+  <h3>TESTING JQUERY</h3>
+
+  <form id ="TestForm" action="">
+    <fieldset>
+      <legend>Add Names</legend>
+      First name: <input type="text" name="fname"><br>
+      Last name: <input type="text" name="lname"><br>
+    </fieldset>
+    <fieldset>
+      <legend>Add Email</legend>
+      Email: <input type="text" name="email"><br>
+    </fieldset>
+    <fieldset>
+      <legend>Add Data</legend>
+      Data: <input type="text" name="data"><br>
+      Submit: <input id="SaveAccount" type="button" value="Submit form" />
+    </fieldset>
+  </form>
+
+  <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+  <script>
+    var steps = $("#TestForm fieldset");
+    var count = steps.size();
+    $("#SaveAccount").hide();
+    $("#TestForm").before("<ul id='steps'></ul>");
+
+
+    steps.each(function(i) {
+      $(this).wrap("<div id='step" + i + "'><div>");
+      $(this).append("<p id='step" + i + "commands'></p>");
+
+      var name = $(this).find("legend").html();
+      $("#steps").append("<li id='stepDesc" + i + "'>Step " + (i + 1) + "<span> " + name + "</span></li>");
+
+      if (i == 0) {
+        selectStep(i);
+        createNextButton(i);
+      } else if (i == (count - 1)) {
+        $('#step' + i).hide();
+        createPrevButton(i);
+      } else {
+        $('#step'+ i).hide();
+        createPrevButton(i);
+        createNextButton(i);
+      }
+
+    });
+
+    function selectStep(i) {
+      // Hacky way to ensure the higlighted parts are only on the current
+      $("#stepDesc" + (i-1)).removeClass("current");
+      $("#stepDesc" + (i+1)).removeClass("current");
+      $("#stepDesc" + i).addClass("current");
+
+    }
+
+    function createPrevButton(i) {
+
+      var stepName = "step" + i;
+
+      $("#" + stepName + "commands").append("<a href='#' id='" + stepName + "Prev' class='prev'>< Back</a>");
+
+      $("#" + stepName + "Prev").bind("click", function(e) {
+          $("#" + stepName).hide();
+          $("#step" + (i - 1)).show();
+          $('#SaveAccount').hide();
+          selectStep(i - 1);
+      });
+    }
+
+
+    function createNextButton(i) {
+      var stepName = "step" + i;
+      $("#" + stepName + "commands").append("<a href='#' id='" + stepName + "Next' class='next'>Next ></a>");
+      $("#" + stepName + "Next").bind("click", function(e) {
+          $("#" + stepName).hide();
+          $("#step" + (i + 1)).show();
+          if (i + 2 == count)
+            $('#SaveAccount').show();
+          selectStep(i + 1);
+      });
+    }
+
+
+  </script>
+
+{% endblock %}
