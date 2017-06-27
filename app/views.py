@@ -33,6 +33,10 @@ def index():
 def test():
     return render_template('test.html')
 
+@app.route("/test-two")
+def test2():
+    return render_template('test-two.html')
+
 @app.route('/crop', methods=['GET', 'POST'])
 def crop_image():
     data = {}

@@ -16,19 +16,34 @@
     #steps li {font-size:24px; float:left; padding:10px; color:#b0b1b3;}
     #steps li span {font-size:11px; display:block;}
     #steps li.current { color: red;}
+
+    #box {
+      width: 400px;
+      height: 400px;
+    }
   </style>
   <h3>TESTING JQUERY</h3>
 
   <form id ="TestForm" action="">
     <fieldset>
-      <legend>Add Names</legend>
-      First name: <input type="text" name="fname"><br>
-      Last name: <input type="text" name="lname"><br>
+      <legend>Upload Image</legend>
+      <input type="file" id="profile-picture-upload" accept="image/*" required/>
+      <img class="chosen-image" src="#" alt="your image" />
+      <!-- <img id="profile-pic-preview" src="http://placehold.it/300.jpg?text=choose+or+upload+a+profile+picture"> -->
+
     </fieldset>
     <fieldset>
-      <legend>Add Email</legend>
-      Email: <input type="text" name="email"><br>
+      <legend>Crop Image</legend>
+      <!-- <img class="chosen-image" src="#" alt="your image" /> -->
+      <div id="box">
+        <img id="profile-pic-preview" src="#">
+      </div>
+      <br>
+      <br>
+      <button type="button" id="crop-button">Crop</button>
+
     </fieldset>
+
     <fieldset>
       <legend>Add Data</legend>
       Data: <input type="text" name="data"><br>
@@ -36,8 +51,66 @@
     </fieldset>
   </form>
 
+  <!-- <div class="row">
+      Profile picture upload
+      <br>
+      <a class="button">
+        <span>Upload</span>
+        <input type="file" id="profile-picture-upload" accept="image/*" required/>
+      </a>
+      <small class="error">Please choose or upload your profile picture</small>
+      <h6 class="text-center">Profile Picture Preview</h6>
+
+      <div class="text-center">
+        <img id="profile-pic-preview" src="http://placehold.it/300.jpg?text=choose+or+upload+a+profile+picture"></div>
+      </div>
+  </div> -->
+
+
+
+
   <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.4.1/croppie.min.css" type="text/css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.4.1/croppie.min.js"></script>
+
+
+
   <script>
+  // alert(Croppie.defaults.toSource());
+    var $profilePicPreview = $('#box').croppie({
+      viewport: {
+        width: 360,
+        height: 360
+      },
+      showZoom: false,
+    });
+
+    function readFile(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (event) {
+        $profilePicPreview.croppie('bind', {
+          url: event.target.result,
+          points: [0, 0, 500, 500]
+        });
+        $('.chosen-image').attr('src', event.target.result);
+        $('.cr-image').css('opacity', 1);
+
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    } else {
+      alert('Sorry - you\'re browser doesn\'t support the FileReader API');
+    }
+    }
+
+    $('#profile-picture-upload').on('change', function() { readFile(this); });
+
+
+
+
+
     var steps = $("#TestForm fieldset");
     var count = steps.size();
     $("#SaveAccount").hide();
@@ -54,6 +127,9 @@
       if (i == 0) {
         selectStep(i);
         createNextButton(i);
+        // $('#imgInp').change(function(){
+        //   readURL(this);
+        // });
       } else if (i == (count - 1)) {
         $('#step' + i).hide();
         createPrevButton(i);
@@ -61,9 +137,19 @@
         $('#step'+ i).hide();
         createPrevButton(i);
         createNextButton(i);
+        // $('#image_url').on("DOMSubtreeModified", function(){
+        //   crop();
+        // });
       }
 
     });
+
+    // function crop() {
+    //   image_url = $("#image_url").attr("data-name");
+    //
+    // }
+
+
 
     function selectStep(i) {
       // Hacky way to ensure the higlighted parts are only on the current
@@ -99,6 +185,28 @@
           selectStep(i + 1);
       });
     }
+
+    // function readURL(input) {
+    //   if (input.files && input.files[0]) {
+    //     var reader = new FileReader();
+    //
+    //     reader.onload = function(e) {
+    //       //alert(e.target.result);
+    //       $('.chosen-image').attr('src', e.target.result);
+    //       $('#image_url').attr('data-name', e.target.result);
+    //       basic.croppie('bind', {
+    //         url: e.target.result
+    //       });
+    //     }
+    //
+    //     reader.readAsDataURL(input.files[0]);
+    //
+    //   }
+    // }
+
+
+
+
 
 
   </script>
