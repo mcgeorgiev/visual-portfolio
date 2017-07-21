@@ -1,0 +1,244 @@
+{% extends "base.html" %}]
+{% block content %}
+
+<!-- Need older version -->
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="static/bower_components/cropit/dist/jquery.cropit.js"></script>
+
+
+<style>
+	.image-editor {
+	 text-align: center;
+	}
+
+	.cropit-preview {
+	background-color: #f8f8f8;
+	background-size: cover;
+	border: 5px solid #ccc;
+	border-radius: 3px;
+	margin-top: 7px;
+	width: 250px;
+	height: 250px;
+	 display: inline-block;
+	}
+
+	.cropit-preview-image-container {
+	cursor: move;
+	}
+
+	.cropit-preview-background {
+	opacity: .2;
+	cursor: auto;
+	}
+
+	.image-size-label {
+	margin-top: 10px;
+	}
+
+	input, .export {
+	/* Use relative position to prevent from being covered by image background */
+	position: relative;
+	z-index: 10;
+	display: block;
+	}
+
+	button {
+	margin-top: 10px;
+	}
+
+	/*body { font-family:Lucida Sans, Arial, Helvetica, Sans-Serif; font-size:13px; margin:20px;}
+	#main { width:960px; margin: 0px auto; border:solid 1px #b2b3b5; -moz-border-radius:10px; padding:20px; background-color:#f6f6f6;}
+	#header { text-align:center; border-bottom:solid 1px #b2b3b5; margin: 0 0 20px 0; }
+	fieldset { border:none; width:320px;}
+	legend { font-size:18px; margin:0px; padding:10px 0px; color:#b0232a; font-weight:bold;}
+	label { display:block; margin:15px 0 5px;}
+	input[type=text], input[type=password] { width:300px; padding:5px; border:solid 1px #000;}
+	.prev, .next { background-color:#b0232a; padding:5px 10px; color:#fff; text-decoration:none;}
+	.prev:hover, .next:hover { background-color:#000; text-decoration:none;}
+	.prev { float:left;}
+	.next { float:right;}*/
+	#steps { list-style:none; width:100%; overflow:hidden; margin:0px; padding:0px;}
+	#steps li {font-size:24px; float:left; padding:10px; color:#b0b1b3;}
+	#steps li span {font-size:11px; display:block;}
+	#steps li.current { color: red;}
+</style>
+
+<!-- <div class="image-editor">
+   <input type="file" class="cropit-image-input">
+   <div class="cropit-preview"></div>
+   <input type="range" class="cropit-image-zoom-input">
+   <button class="export">Export</button>
+ </div> -->
+
+ <form id ="TestForm" action="">
+	<div class="image-editor">
+	 	<fieldset>
+	 		<legend>Upload Image</legend>
+	 		<input type="file" class="cropit-image-input">
+	 		<img class="chosen-image" src="#" alt="your image" />
+	 		<!-- <img id="profile-pic-preview" src="http://placehold.it/300.jpg?text=choose+or+upload+a+profile+picture"> -->
+
+	 	</fieldset>
+	 	<fieldset>
+	 		<legend>Crop Image</legend>
+	 		<!-- <img class="chosen-image" src="#" alt="your image" /> -->
+			<div class="cropit-preview"></div>
+	    <input type="range" class="cropit-image-zoom-input">
+	 		<br>
+	 		<br>
+	 		<button type="button" id="crop-button">Crop</button>
+
+	 	</fieldset>
+
+	 	<fieldset>
+	 		<legend>Add Data</legend>
+	 		Data: <input type="text" name="data"><br>
+	 		Submit: <input id="SaveAccount" type="button" value="Submit form" />
+			<button class="export">Export</button>
+	 	</fieldset>
+	</div>
+ </form>
+
+ <!-- <div class="row">
+ 		Profile picture upload
+ 		<br>
+ 		<a class="button">
+ 			<span>Upload</span>
+ 			<input type="file" id="profile-picture-upload" accept="image/*" required/>
+ 		</a>
+ 		<small class="error">Please choose or upload your profile picture</small>
+ 		<h6 class="text-center">Profile Picture Preview</h6>
+
+ 		<div class="text-center">
+ 			<img id="profile-pic-preview" src="http://placehold.it/300.jpg?text=choose+or+upload+a+profile+picture"></div>
+ 		</div>
+ </div> -->
+
+
+
+
+
+
+
+ <script>
+ $(document).ready(function() {
+
+ 	function readFile(input) {
+ 	if (input.files && input.files[0]) {
+ 		var reader = new FileReader();
+ 		reader.onload = function (event) {
+ 			$('.chosen-image').attr('src', event.target.result);
+
+ 		};
+
+ 		reader.readAsDataURL(input.files[0]);
+ 	} else {
+ 		alert('Sorry - you\'re browser doesn\'t support the FileReader API');
+ 	}
+ 	}
+
+ 	$('.cropit-image-input').on('change', function() {
+		console.log("here");
+		readFile(this);
+	});
+
+
+
+
+ 	var steps = $("#TestForm fieldset");
+ 	var count = steps.size();
+ 	$("#SaveAccount").hide();
+ 	$("#TestForm").before("<ul id='steps'></ul>");
+
+
+ 	steps.each(function(i) {
+ 		$(this).wrap("<div id='step" + i + "'><div>");
+ 		$(this).append("<p id='step" + i + "commands'></p>");
+
+ 		var name = $(this).find("legend").html();
+ 		$("#steps").append("<li id='stepDesc" + i + "'>Step " + (i + 1) + "<span> " + name + "</span></li>");
+
+ 		if (i == 0) {
+ 			selectStep(i);
+ 			createNextButton(i);
+ 		} else if (i == (count - 1)) {
+ 			$('#step' + i).hide();
+ 			createPrevButton(i);
+ 		} else {
+ 			$('#step'+ i).hide();
+ 			createPrevButton(i);
+ 			createNextButton(i);
+
+ 		}
+
+
+ 	});
+
+ 	function selectStep(i) {
+ 		// Hacky way to ensure the higlighted parts are only on the current
+ 		$("#stepDesc" + (i-1)).removeClass("current");
+ 		$("#stepDesc" + (i+1)).removeClass("current");
+ 		$("#stepDesc" + i).addClass("current");
+
+ 	}
+
+ 	function createPrevButton(i) {
+
+ 		var stepName = "step" + i;
+
+ 		$("#" + stepName + "commands").append("<a href='#' id='" + stepName + "Prev' class='prev'>< Back</a>");
+
+ 		$("#" + stepName + "Prev").bind("click", function(e) {
+ 				$("#" + stepName).hide();
+ 				$("#step" + (i - 1)).show();
+ 				$('#SaveAccount').hide();
+ 				selectStep(i - 1);
+ 		});
+ 	}
+
+
+ 	function createNextButton(i) {
+ 		var stepName = "step" + i;
+ 		$("#" + stepName + "commands").append("<a href='#' id='" + stepName + "Next' class='next'>Next ></a>");
+ 		$("#" + stepName + "Next").bind("click", function(e) {
+ 				$("#" + stepName).hide();
+ 				$("#step" + (i + 1)).show();
+ 				if (i + 2 == count)
+ 					$('#SaveAccount').show();
+ 				selectStep(i + 1);
+ 		});
+ 	}
+ });
+
+	$(function() {
+		$('.image-editor').cropit({
+			exportZoom: 1.25,
+			imageBackground: true,
+			imageBackgroundBorderWidth: 50,
+		});
+
+		$('#crop-button').click(function() {
+			console.log($('.image-editor').cropit('offset'));
+			console.log($('.image-editor').cropit('zoom'));			// var imageData = $('.image-editor').cropit('export');
+
+			var offset = $('.image-editor').cropit('offset');
+			var zoom = $('.image-editor').cropit('zoom');
+
+			var points = {
+				top_left: [Math.abs(offset.x)/zoom, Math.abs(offset.y)/zoom],
+				top_right: [Math.abs(offset.x+250)/zoom, Math.abs(offset.y)/zoom],
+				bottom_left: [Math.abs(offset.x)/zoom, Math.abs(offset.y+250)/zoom],
+				bottom_right: [Math.abs(offset.x+250)/zoom, Math.abs(offset.y+250)/zoom],
+			}
+
+			console.log(points.top_right);
+
+
+
+
+			// window.open(imageData);
+		});
+
+	});
+</script>
+{% endblock %}

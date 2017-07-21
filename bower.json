@@ -1,0 +1,21 @@
+{
+  "name": "visual-portfolio",
+  "homepage": "https://github.com/mcgeorgiev/visual-portfolio",
+  "authors": [
+    "Michael <michael_georgiev@hotmail.co.uk>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "cropit": "^0.5.1"
+  }
+}

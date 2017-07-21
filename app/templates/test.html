@@ -16,7 +16,6 @@
     #steps li {font-size:24px; float:left; padding:10px; color:#b0b1b3;}
     #steps li span {font-size:11px; display:block;}
     #steps li.current { color: red;}
-
     #box {
       width: 400px;
       height: 400px;
@@ -76,6 +75,9 @@
 
 
   <script>
+  $(document).ready(function() {
+
+
   // alert(Croppie.defaults.toSource());
     var $profilePicPreview = $('#box').croppie({
       viewport: {
@@ -110,7 +112,6 @@
 
 
 
-
     var steps = $("#TestForm fieldset");
     var count = steps.size();
     $("#SaveAccount").hide();
@@ -141,6 +142,7 @@
         //   crop();
         // });
       }
+
 
     });
 
@@ -204,11 +206,19 @@
     //   }
     // }
 
+    // $('.cr-slider').mousedown( function() {
+    //
+    //
+    //
+      var data = $(".cr-slider");
+      console.log(data.attr("step"));
+      data.attr("step", "1.5");
+      console.log(data.attr("step"));
+    //});
 
 
 
-
-
+  });
   </script>
 
 {% endblock %}
