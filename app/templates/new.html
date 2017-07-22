@@ -69,32 +69,35 @@
    <input type="range" class="cropit-image-zoom-input">
    <button class="export">Export</button>
  </div> -->
+ <!-- <form action="/new" method="post">
+   <input type="text" name="email"></input>
+   <input type="submit" name="submit" value="Signup"></input>
+ </form> -->
 
- <form id ="TestForm" action="">
+
+ <form id ="TestForm" enctype="multipart/form-data" method="POST" action="">
 	<div class="image-editor">
 	 	<fieldset>
 	 		<legend>Upload Image</legend>
-	 		<input type="file" class="cropit-image-input">
+	 		<input type="file" class="cropit-image-input" name="file">
 	 		<img class="chosen-image" src="#" alt="your image" />
-	 		<!-- <img id="profile-pic-preview" src="http://placehold.it/300.jpg?text=choose+or+upload+a+profile+picture"> -->
 
 	 	</fieldset>
 	 	<fieldset>
 	 		<legend>Crop Image</legend>
-	 		<!-- <img class="chosen-image" src="#" alt="your image" /> -->
 			<div class="cropit-preview"></div>
-	    <input type="range" class="cropit-image-zoom-input">
+	    <input name="range" type="range" class="cropit-image-zoom-input">
 	 		<br>
 	 		<br>
-	 		<button type="button" id="crop-button">Crop</button>
 
 	 	</fieldset>
 
 	 	<fieldset>
 	 		<legend>Add Data</legend>
-	 		Data: <input type="text" name="data"><br>
-	 		Submit: <input id="SaveAccount" type="button" value="Submit form" />
-			<button class="export">Export</button>
+	 		Title: <input type="text" name="title"><br>
+			Description: <input type="textArea" name="desc"><br>
+			<input type="hidden" class="crop-points" name="points" value="888">
+	 		Submit: <input id="submit-button" name="submit" type="submit" value="Submit" />
 	 	</fieldset>
 	</div>
  </form>
@@ -217,13 +220,12 @@
 			imageBackgroundBorderWidth: 50,
 		});
 
-		$('#crop-button').click(function() {
+		$('#TestForm').submit(function() {
+
 			console.log($('.image-editor').cropit('offset'));
 			console.log($('.image-editor').cropit('zoom'));			// var imageData = $('.image-editor').cropit('export');
-
 			var offset = $('.image-editor').cropit('offset');
 			var zoom = $('.image-editor').cropit('zoom');
-
 			var points = {
 				top_left: [Math.abs(offset.x)/zoom, Math.abs(offset.y)/zoom],
 				top_right: [Math.abs(offset.x+250)/zoom, Math.abs(offset.y)/zoom],
@@ -232,6 +234,12 @@
 			}
 
 			console.log(points.top_right);
+			var $p = $(this).find("input[name=points]");
+			console.log($p);
+			$p.val(JSON.stringify(points));
+			alert();
+
+
 
 
 

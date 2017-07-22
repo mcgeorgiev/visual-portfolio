@@ -37,6 +37,12 @@ def test():
 def test2():
     return render_template('test-two.html')
 
+@app.route("/new", methods=['GET', 'POST'])
+def new():
+    print request.form
+    print request.files
+    return render_template('new.html')
+
 @app.route('/crop', methods=['GET', 'POST'])
 def crop_image():
     data = {}
