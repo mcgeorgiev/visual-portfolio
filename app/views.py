@@ -15,6 +15,9 @@ _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 def index():
     data = {}
     owner = User.query.first()
+    if not owner:
+        return redirect(url_for('create_account'))
+
     data["name"] = owner.name
 
     data["images"] = []
