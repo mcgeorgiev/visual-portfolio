@@ -23,13 +23,17 @@
         </div>
     </div>
 
+    <button id="select-crop-points">
+      Hey
+    </button>
+
     <script>
 
     var $profilePicPreview = $('#profile-pic-preview').croppie({
       viewport: {
         width: 200,
         height: 200,
-        type: 'circle'
+        type: 'square'
       },
       boundary: {
         width: 300,
@@ -54,7 +58,13 @@
     }
     }
 
-    $('#profile-picture-upload').on('change', function() { readFile(this); });
+    $('#profile-picture-upload').on('change', function() { readFile(this);
+  });
+
+
+    $("#select-crop-points").click(() => {
+      console.log($profilePicPreview.croppie('get'));
+    });
 
     </script>
 
