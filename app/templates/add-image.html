@@ -90,12 +90,12 @@
   <body>
 
   <form id="regForm">
-    <h1>Register:</h1>
+    <h1>Image Upload:</h1>
     <!-- One "tab" for each step in the form: -->
     <div class="tab">Upload your image:
       <div>
           <a class="button">
-            <input type="file" id="profile-picture-upload" accept="image/*" required/>
+            <input type="file" id="picture-upload" accept="image/*" required/>
           </a>
 
           <h6>Image Preview</h6>
@@ -106,20 +106,16 @@
 
       </div>
     </div>
-    <div class="tab">Contact Info:
-      <button id="crop-button">Press</button>
+    <div class="tab">Select Thumbnail Area:
+
       <div>
-        <div id="profile-pic-preview"></div>
+        <div id="thumbnail-preview"></div>
       </div>
-    </div>
-    <div class="tab">Birthday:
-      <p><input placeholder="dd" oninput="this.className = ''" name="dd"></p>
-      <p><input placeholder="mm" oninput="this.className = ''" name="nn"></p>
-      <p><input placeholder="yyyy" oninput="this.className = ''" name="yyyy"></p>
+
     </div>
     <div class="tab">Login Info:
-      <p><input placeholder="Username..." oninput="this.className = ''" name="uname"></p>
-      <p><input placeholder="Password..." oninput="this.className = ''" name="pword" type="password"></p>
+      <p><input placeholder="Title" name="title"></p>
+      <p><input placeholder="Description" name="description" ></p>
     </div>
     <div style="overflow:auto;">
       <div style="float:right;">
@@ -132,13 +128,12 @@
       <span class="step"></span>
       <span class="step"></span>
       <span class="step"></span>
-      <span class="step"></span>
     </div>
   </form>
 
   <script>
 
-  var profilePicPreview = $('#profile-pic-preview').croppie({
+  var crop = $('#thumbnail-preview').croppie({
     viewport: {
       width: 200,
       height: 200,
@@ -152,11 +147,14 @@
   });
 
   var crImage = "";
+  var cropPoints = [];
 
-  $('#profile-picture-upload').on('change', function() {
+  $('#picture-upload').on('change', function() {
     readFile(this);
+  });
 
-
+  $(".cr-slider-wrap").click(() => {
+    console.log(crop.croppie('get'));
   });
 
 
@@ -177,13 +175,24 @@
   }
   }
 
+  function bind() {
+    if (cropPoints.length == 0 ) {
+      crop.croppie('bind', {
+        url: crImage
+      });
+    } else {
+      crop.croppie('bind', {
+        url: crImage,
+        points: cropPoints
+      });
+    }
+  }
+
   var currentTab = 0; // Current tab is set to be the first tab (0)
   showTab(currentTab); // Display the crurrent tab
 
   function showTab(n) {
-    profilePicPreview.croppie('bind', {
-      url: crImage
-    });
+    bind();
 
     // This function will display the specified tab of the form...
     var x = document.getElementsByClassName("tab");
