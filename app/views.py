@@ -108,31 +108,35 @@ def add_new_image():
     data = {}
     owner = User.query.first()
     data["name"] = owner.name
-
+    print "##################"
     form = AddForm()
-    if form.validate_on_submit():
-        filename = None
-        try:
-            filename = secure_filename(form.picture.data.filename)
-        except:
-            pass
+    print form.picture.data
+    print form.title.data
 
-        if filename is None:
-            flash('No selected file')
-        elif allowed_file(filename):
-            form.picture.data.save(app.config["BASEDIR"] + app.config['UPLOAD_FOLDER'] + "/" + filename)
-            title = form.title.data
-            image = Image(title=title,
-                slug=slugify(title),
-                description=form.description.data,
-                timestamp=datetime.datetime.now(),
-                url=filename,
-                user_id=owner.id)
-            db.session.add(image)
-            db.session.commit()
-            flash('Added image successfully')
-        else:
-            flash('Incorrect file type')
+    # if form.validate_on_submit():
+    #     print form
+        # filename = None
+        # try:
+        #     filename = secure_filename(form.picture.data.filename)
+        # except:
+        #     pass
+        #
+        # if filename is None:
+        #     flash('No selected file')
+        # elif allowed_file(filename):
+        #     form.picture.data.save(app.config["BASEDIR"] + app.config['UPLOAD_FOLDER'] + "/" + filename)
+        #     title = form.title.data
+        #     image = Image(title=title,
+        #         slug=slugify(title),
+        #         description=form.description.data,
+        #         timestamp=datetime.datetime.now(),
+        #         url=filename,
+        #         user_id=owner.id)
+        #     db.session.add(image)
+        #     db.session.commit()
+        #     flash('Added image successfully')
+        # else:
+        #     flash('Incorrect file type')
     return render_template('add-image.html', add_form=form, data=data)
 
 

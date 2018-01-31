@@ -17,7 +17,7 @@
     background-color: #f1f1f1;
   }
 
-  #regForm {
+  #add-form {
     background-color: #ffffff;
     margin: 100px auto;
     font-family: Raleway;
@@ -89,39 +89,44 @@
   </style>
   <body>
 
-  <form id="regForm">
+  <form id="add-form" name="add-form" action="" method="post" enctype="multipart/form-data">
+    {{ add_form.hidden_tag() }}
+
     <h1>Image Upload:</h1>
-    <!-- One "tab" for each step in the form: -->
-    <div class="tab">Upload your image:
+
+    <div class="tab">Select your image:
       <div>
           <a class="button">
-            <input type="file" id="picture-upload" accept="image/*" required/>
+            <!-- <input type="file" id="picture-upload" accept="image/*" required/> -->
+            {{ add_form.picture }}
           </a>
 
           <h6>Image Preview</h6>
           <div>
             <img id="preview" src="#"></img>
           </div>
-
-
       </div>
     </div>
-    <div class="tab">Select Thumbnail Area:
 
+    <div class="tab">Select Thumbnail Area:
       <div>
+        {{ add_form.crop_points }}
         <div id="thumbnail-preview"></div>
       </div>
-
     </div>
-    <div class="tab">Login Info:
-      <p><input placeholder="Title" name="title"></p>
-      <p><input placeholder="Description" name="description" ></p>
+
+    <div class="tab">Image Information:
+      <!-- <p><input placeholder="Title" name="title"></p>
+      <p><input placeholder="Description" name="description" ></p> -->
+      <p>Title: {{ add_form.title }}</p>
+      <p>Description: {{ add_form.description }}</p>
     </div>
     <div style="overflow:auto;">
       <div style="float:right;">
         <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
         <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
       </div>
+      <p id="display"></p>
     </div>
     <!-- Circles which indicates the steps of the form: -->
     <div style="text-align:center;margin-top:40px;">
@@ -149,7 +154,7 @@
   var crImage = "";
   var cropPoints = [];
 
-  $('#picture-upload').on('change', function() {
+  $('#picture').on('change', function() {
     readFile(this);
   });
 
@@ -204,7 +209,10 @@
       document.getElementById("prevBtn").style.display = "inline";
     }
     if (n == (x.length - 1)) {
+      // $("#submit").attr('type', 'submit');
       document.getElementById("nextBtn").innerHTML = "Submit";
+      document.getElementById('display').innerHTML =
+                    document.getElementById("picture").value;
     } else {
       document.getElementById("nextBtn").innerHTML = "Next";
     }
@@ -224,7 +232,7 @@
     // if you have reached the end of the form...
     if (currentTab >= x.length) {
       // ... the form gets submitted:
-      document.getElementById("regForm").submit();
+      document.getElementById("add-form").submit();
       return false;
     }
     // Otherwise, display the correct tab:
