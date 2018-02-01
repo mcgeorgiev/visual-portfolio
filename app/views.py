@@ -92,6 +92,25 @@ def create_cropped_image(filename, points=None):
     db.session.commit()
     cropped_img.save(path + cropped_name)
 
+def create_thumbnail(filename, crop_points):
+    path = app.config["BASEDIR"] + app.config['UPLOAD_FOLDER'] + "/"
+    img = ImagePIL.open(path + filename)
+
+    block = ''
+    points = []
+    i = 0
+    while i < len(crop_points):
+        if crop_points[i].isdigit():
+            block += crop_points[i]
+        else:
+            points.append(int(block))
+            block = ''
+        i+=1
+    points.append(int(block))
+    print points
+
+    thumbnail = img.crop(points)
+    thumbnail.save("img2.jpg")
 
 @app.route('/create', methods=['GET', 'POST'])
 def create_account():
@@ -108,32 +127,31 @@ def add_new_image():
     data = {}
     owner = User.query.first()
     data["name"] = owner.name
-    print "##################"
     form = AddForm()
-    print form.picture.data
-    print form.crop_points.data
-    print form.title.data
-    print form.description.data
 
-    # if form.validate_on_submit():
-    #     print form
-        # filename = None
-        # try:
-        #     filename = secure_filename(form.picture.data.filename)
-        # except:
-        #     pass
-        #
-        # if filename is None:
-        #     flash('No selected file')
-        # elif allowed_file(filename):
-        #     form.picture.data.save(app.config["BASEDIR"] + app.config['UPLOAD_FOLDER'] + "/" + filename)
-        #     title = form.title.data
-        #     image = Image(title=title,
-        #         slug=slugify(title),
-        #         description=form.description.data,
-        #         timestamp=datetime.datetime.now(),
-        #         url=filename,
-        #         user_id=owner.id)
+    if form.validate():
+        filename = None
+        try:
+            filename = secure_filename(form.picture.data.filename)
+        except:
+            pass
+        print filename
+        if filename is None:
+            flash('No selected file')
+        else:
+            form.picture.data.save(app.config["BASEDIR"] + app.config['UPLOAD_FOLDER'] + "/" + filename)
+            title = form.title.data
+            image = Image(
+                title=title,
+                slug=slugify(title),
+                description=form.description.data,
+                timestamp=datetime.datetime.now(),
+                url=filename,
+                user_id=owner.id)
+                # cropped url
+                # position
+            create_thumbnail(filename, form.crop_points.data)
+            print image.timestamp
         #     db.session.add(image)
         #     db.session.commit()
         #     flash('Added image successfully')
