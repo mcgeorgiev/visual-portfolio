@@ -111,7 +111,9 @@ def add_new_image():
     print "##################"
     form = AddForm()
     print form.picture.data
+    print form.crop_points.data
     print form.title.data
+    print form.description.data
 
     # if form.validate_on_submit():
     #     print form
