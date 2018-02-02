@@ -93,8 +93,8 @@ def create_cropped_image(filename, points=None):
     cropped_img.save(path + cropped_name)
 
 def create_thumbnail(filename, crop_points):
-    path = app.config["BASEDIR"] + app.config['UPLOAD_FOLDER'] + "/"
-    img = ImagePIL.open(path + filename)
+    full_image_path = app.config["BASEDIR"] + app.config['IMAGE_FOLDER'] + "/"
+    img = ImagePIL.open(full_image_path + filename)
 
     block = ''
     points = []
@@ -107,10 +107,15 @@ def create_thumbnail(filename, crop_points):
             block = ''
         i+=1
     points.append(int(block))
-    print points
 
     thumbnail = img.crop(points)
-    thumbnail.save("img2.jpg")
+    thumbnail_path = app.config["BASEDIR"] + app.config['THUMBNAIL_FOLDER'] + "/" + create_thumbnail_name(filename)
+    thumbnail.save(thumbnail_path, quality=90, optimize=True)
+    return thumbnail_path
+
+def create_thumbnail_name(filename):
+    stemmed = filename.split(".")
+    return "{0}_tb.{1}".format(stemmed[0], stemmed[1])
 
 @app.route('/create', methods=['GET', 'POST'])
 def create_account():
@@ -139,7 +144,10 @@ def add_new_image():
         if filename is None:
             flash('No selected file')
         else:
-            form.picture.data.save(app.config["BASEDIR"] + app.config['UPLOAD_FOLDER'] + "/" + filename)
+            form.picture.data.save(app.config["BASEDIR"] + app.config['IMAGE_FOLDER'] + "/" + filename)
+            # need to lower quality
+            thumbnail_url = create_thumbnail(filename, form.crop_points.data)
+
             title = form.title.data
             image = Image(
                 title=title,
@@ -147,10 +155,9 @@ def add_new_image():
                 description=form.description.data,
                 timestamp=datetime.datetime.now(),
                 url=filename,
+                cropped_url=thumbnail_url,
                 user_id=owner.id)
-                # cropped url
                 # position
-            create_thumbnail(filename, form.crop_points.data)
             print image.timestamp
         #     db.session.add(image)
         #     db.session.commit()
