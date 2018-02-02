@@ -127,6 +127,10 @@ def create_account():
         return redirect(url_for('index'))
     return render_template('create.html', create_form=form)
 
+def create_new_filename(filename, filename_id):
+    stemmed = filename.split(".")
+    return "{0}.{1}".format(filename_id, stemmed[-1])
+
 @app.route('/add-image', methods=['GET', 'POST'])
 def add_new_image():
     data = {}
@@ -144,26 +148,40 @@ def add_new_image():
         if filename is None:
             flash('No selected file')
         else:
-            form.picture.data.save(app.config["BASEDIR"] + app.config['IMAGE_FOLDER'] + "/" + filename)
+            timestamp = datetime.datetime.now()
+
+            # create new blank entry associated with user
+            image = Image(
+                timestamp=timestamp,
+                user_id=owner.id)
+            db.session.add(image)
+            db.session.commit()
+
+            # open up the image again and get the id
+            image = Image.query.filter(Image.user_id == owner.id, Image.timestamp == timestamp).first()
+            image_id = image.id
+            new_filename = create_new_filename(filename, image_id)
+            # Save all the information make the picture name the id
+            image_path = app.config["BASEDIR"] + app.config['IMAGE_FOLDER'] + "/" + new_filename
+            form.picture.data.save(image_path)
             # need to lower quality
-            thumbnail_url = create_thumbnail(filename, form.crop_points.data)
+            thumbnail_path = create_thumbnail(new_filename, form.crop_points.data)
 
             title = form.title.data
-            image = Image(
-                title=title,
-                slug=slugify(title),
-                description=form.description.data,
-                timestamp=datetime.datetime.now(),
-                url=filename,
-                cropped_url=thumbnail_url,
-                user_id=owner.id)
-                # position
-            print image.timestamp
-        #     db.session.add(image)
-        #     db.session.commit()
-        #     flash('Added image successfully')
-        # else:
-        #     flash('Incorrect file type')
+            image.title=title
+            image.slug=slugify(title)
+            image.description=form.description.data
+            image.timestamp=datetime.datetime.now()
+            image.url=image_path
+            image.cropped_url=thumbnail_path
+            image.user_id=owner.id
+            image.position = len([(i, x) for i, x in enumerate(owner.images, 1)])
+
+
+            db.session.add(image)
+            db.session.commit()
+            flash('Added image successfully')
+    
     return render_template('add-image.html', add_form=form, data=data)
 
 
