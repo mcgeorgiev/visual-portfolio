@@ -14,10 +14,23 @@ var crop = $('#thumbnail-preview').croppie({
 var crImage = "";
 // x1, y1, x2, y2
 var cropPoints = [];
+// is the next button allowed to be pressed.
+var processable = false;
+
 
 $('#picture').on('change', function() {
-  readFile(this);
+  var ext = $('#picture').val().split('.').pop().toLowerCase();
+  if (!($.inArray(ext, ['gif','png','jpg','jpeg']) == -1)) {
+      processable = true;
+      readFile(this);
+  } else {
+    alert('invalid extension!');
+    document.getElementById("add-form").reset();
+    // maybe have a div for this
+  }
 });
+
+
 
 $(window).mouseup(() => {
   if ($("#nextBtn").hasClass( "will-crop" )) {
@@ -26,6 +39,12 @@ $(window).mouseup(() => {
     $("#crop_points").val(cropPoints);
   }
 });
+
+function getFileExtension(name) {
+  return name.split('.').pop();
+}
+
+
 
 function readFile(input) {
   if (input.files && input.files[0]) {
@@ -86,15 +105,17 @@ function showTab(n) {
 }
 
 function nextPrev(n) {
-  var x = document.getElementsByClassName("tab");
+  if (processable) {
+    var x = document.getElementsByClassName("tab");
 
-  x[currentTab].style.display = "none";
-  currentTab = currentTab + n;
-  if (currentTab >= x.length) {
-    document.getElementById("add-form").submit();
-    return false;
+    x[currentTab].style.display = "none";
+    currentTab = currentTab + n;
+    if (currentTab >= x.length) {
+      document.getElementById("add-form").submit();
+      return false;
+    }
+    showTab(currentTab);
   }
-  showTab(currentTab);
 }
 
 function fixStepIndicator(n) {
