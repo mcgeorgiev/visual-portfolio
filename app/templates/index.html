@@ -1,16 +1,86 @@
 {% extends "base.html" %}]
 {% block content %}
+  <style>
+    html, body, div, ul, li{
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font: inherit;
+      vertical-align: baseline;
+    }
 
+    body {
+      width: 100%;
+      min-height: 100%;
+      font-family: 'Lato', sans-serif;
+    }
+
+    #container {
+      max-width: 960px;
+      margin: 0 auto;
+      /*background-color: azure;*/
+    }
+
+    .square .image {
+      position: relative;
+      display: block;
+      float: left;
+      width: 30%;
+      height: 0;
+      padding-bottom: 30%;
+    }
+    .image {
+      margin: 1.66%;
+    }
+
+    .square:hover .overlay {
+        opacity:0.7;
+    }
+
+    .overlay {
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        position: absolute;
+        opacity: 0;
+        background-color: #dddddd;
+        transition: .5s ease;
+        width: 100%;
+        padding:40% 0;
+        display:inline-block;
+        vertical-align:middle;
+        text-align: center;
+
+    }
+
+    .label {
+      display: : inline-block;
+      color: #555555;
+    }
+
+
+    .overlay, .image {
+      border-radius: 8px;
+    }
+
+
+
+  </style>
+  <div id="container">
     {% for image in data.images %}
-    <div class="image-container">
 
-        <a href="{{ image.slug }}">
-         <img src="static/{{ image.url }}" alt="thumbnail" class="image">
-          <div class="overlay">
-            <div class="label">{{ image.title }}</div>
+        <!-- <a class="square" href="{{ image.slug }}"> -->
+        <div class="square">
+          <div class="image" style="background-image: url({{ image.thumbnail_path }});">
+           <!-- <img src="{{ image.thumbnail_path }}" alt="thumbnail" class="image"> -->
+            <div class="overlay">
+              <div class="label">{{ image.title }}</div>
+            </div>
+          <!-- </a> -->
           </div>
-        </a>
-    </div>
+      </div>
     {% endfor %}
-
+  </div>
 {% endblock %}

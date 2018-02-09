@@ -26,11 +26,32 @@ def index():
         image = {}
         image["title"] = item.title
         image["description"] = item.description
-        image["url"] = item.url
+        image["thumbnail_path"] = item.cropped_url
         image["slug"] = item.slug
         data["images"].append(image)
 
     return render_template('index.html', data=data)
+
+@app.route("/edit")
+def edit():
+    data = {}
+    owner = User.query.first()
+    if not owner:
+        return redirect(url_for('create_account'))
+
+    data["name"] = owner.name
+
+    data["images"] = []
+    images = owner.images
+    for item in images:
+        image = {}
+        image["title"] = item.title
+        image["description"] = item.description
+        image["thumbnail_path"] = item.cropped_url
+        image["slug"] = item.slug
+        data["images"].append(image)
+
+    return render_template('edit.html', data=data)
 
 @app.route("/test")
 def test():
@@ -109,9 +130,10 @@ def create_thumbnail(filename, crop_points):
     points.append(int(block))
 
     thumbnail = img.crop(points)
-    thumbnail_path = app.config["BASEDIR"] + app.config['THUMBNAIL_FOLDER'] + "/" + create_thumbnail_name(filename)
+    new_filename = create_thumbnail_name(filename)
+    thumbnail_path = app.config["BASEDIR"] + app.config['THUMBNAIL_FOLDER'] + "/" + new_filename
     thumbnail.save(thumbnail_path, quality=90, optimize=True)
-    return thumbnail_path
+    return app.config["THUMBNAILS"] + new_filename
 
 def create_thumbnail_name(filename):
     stemmed = filename.split(".")
@@ -172,7 +194,7 @@ def add_new_image():
             image.slug=slugify(title)
             image.description=form.description.data
             image.timestamp=datetime.datetime.now()
-            image.url=image_path
+            image.url=app.config["IMAGES"] + new_filename
             image.cropped_url=thumbnail_path
             image.user_id=owner.id
             image.position = len([(i, x) for i, x in enumerate(owner.images, 1)])
@@ -181,7 +203,7 @@ def add_new_image():
             db.session.add(image)
             db.session.commit()
             flash('Added image successfully')
-    
+
     return render_template('add-image.html', add_form=form, data=data)
 
 
