@@ -4,8 +4,8 @@ from wtforms.validators import DataRequired, Email, Length, EqualTo
 from flask_wtf.file import FileField
 
 class AddForm(Form):
-    title = StringField('Title', validators=[Length(1, 128)])
-    description = StringField('Description', validators=[Length(1, 128)])
+    title = StringField('Title', default="Add your title", validators=[Length(1, 128)])
+    description = TextAreaField('Description', default="Add your Description", validators=[Length(1, 128)])
     picture = FileField(validators=[DataRequired()])
     crop_points = HiddenField()
     # submit = SubmitField('Add Image')
