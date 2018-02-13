@@ -48,6 +48,10 @@
       background-color:khaki;
     }
 
+    .unsortable {
+      background-color:silver;
+    }
+
 
 
     @media screen and (min-width: 600px) {

@@ -10,6 +10,27 @@
   <script>
 
   $( function() {
+
+
+  });
+  </script>
+    <button id="set-images" type="button">Confirm Images</button>
+    <span id="result"></span>
+    <div class="thumbnail-grid">
+      <div id="sortable" class="grid">
+        {% for image in data.images %}
+        <div class="cell" id={{ image.id }}>
+          <img src="{{ image.thumbnail_path }}" class="responsive-image">
+          <div class ="overlay"><div class="text">{{ image.title }}</div></div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  <script>
+  $( document ).ready(function(){
+
+
     $("#sortable").sortable({
       placeholder: {
           element: function(currentItem) {
@@ -17,10 +38,23 @@
           },
           update: function(container, p) {
               return;
-          }
+          },
       }
     });
-    $( "#sortable" ).disableSelection();
+    $("#sortable").disableSelection();
+    $("#sortable").sortable({ items : '.cell:not(.unsortable)' });
+
+
+    var imageNum = $(".cell").length;
+    var rowLength = 3;
+    var remainder = imageNum % rowLength;
+    if (remainder !== 0) {
+      var emptyCellNum = rowLength - remainder;
+      for (var i = 0; i < emptyCellNum; i++) {
+        $(".grid").append("<div class='cell unsortable'></div>");
+      }
+    }
+
 
     $('#set-images').click(function() {
 
@@ -43,21 +77,7 @@
         }
       });
     });
-
   });
   </script>
-    <button id="set-images" type="button">Confirm Images</button>
-    <span id="result"></span>
-    <div class="thumbnail-grid">
-      <div id="sortable" class="grid">
-        {% for image in data.images %}
-        <div class="cell" id={{ image.id }}>
-          <img src="{{ image.thumbnail_path }}" class="responsive-image">
-          <div class ="overlay"><div class="text">{{ image.title }}</div></div>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-
 
 {% endblock %}
