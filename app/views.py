@@ -6,8 +6,8 @@ from app.forms import AddForm, CreateForm
 from werkzeug.utils import secure_filename
 import datetime
 from PIL import Image as ImagePIL
-
-
+from operator import itemgetter
+import json
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
@@ -28,9 +28,28 @@ def index():
         image["description"] = item.description
         image["thumbnail_path"] = item.cropped_url
         image["slug"] = item.slug
+        image["position"] = item.position
+        image["id"] = item.id
         data["images"].append(image)
-
+    unsorted_images = data["images"]
+    data["images"] = sorted(unsorted_images, key=itemgetter('position'))
     return render_template('index.html', data=data)
+
+@app.route('/set_positions', methods=["GET", "POST"])
+def set_positions():
+    data = json.loads(request.form.get("postitionData", None))
+    if data:
+        for position, _id in data.items():
+            position = int(position)
+            _id = int(_id)
+            image = Image.query.filter_by(id=_id).first()
+            image.position = position + 1
+            db.session.add(image)
+            db.session.commit()
+
+        return jsonify({"response":'New positions set successfully'});
+    return jsonify({"response":'An error has occurred. Please try again.'});
+
 
 @app.route("/edit")
 def edit():
@@ -49,7 +68,11 @@ def edit():
         image["description"] = item.description
         image["thumbnail_path"] = item.cropped_url
         image["slug"] = item.slug
+        image["position"] = item.position
+        image["id"] = item.id
         data["images"].append(image)
+    unsorted_images = data["images"]
+    data["images"] = sorted(unsorted_images, key=itemgetter('position'))
 
     return render_template('edit.html', data=data)
 

@@ -5,7 +5,7 @@
     <div class="thumbnail-grid">
       <div class="grid">
         {% for image in data.images %}
-        <div class="cell">
+        <div class="cell" id={{ image.id }}>
           <img src="{{ image.thumbnail_path }}" class="responsive-image">
           <div class ="overlay"><div class="text">{{ image.title }}</div></div>
         </div>
