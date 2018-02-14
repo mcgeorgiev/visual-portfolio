@@ -5,6 +5,12 @@
       padding: 0 1rem;
     }
 
+    .thumbnail-grid-edit {
+      margin: 0 auto;
+      max-width: 640px;
+      padding: 0 1rem;
+    }
+
     .responsive-image {
       max-width: 100%;
       height: 100%;
@@ -52,7 +58,23 @@
       background-color:silver;
     }
 
+    .top-left {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+    }
 
+    .icon {
+      opacity: 0.0;
+    }
+
+    .cell:hover .icon {
+      opacity: 0.6;
+    }
+
+    .cell:hover .icon:hover {
+      opacity: 1.0;
+    }
 
     @media screen and (min-width: 600px) {
       .grid {

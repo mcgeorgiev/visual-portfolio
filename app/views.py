@@ -35,6 +35,7 @@ def index():
     data["images"] = sorted(unsorted_images, key=itemgetter('position'))
     return render_template('index.html', data=data)
 
+
 @app.route('/set_positions', methods=["GET", "POST"])
 def set_positions():
     data = json.loads(request.form.get("postitionData", None))
@@ -76,65 +77,11 @@ def edit():
 
     return render_template('edit.html', data=data)
 
+
 @app.route("/test")
 def test():
     return render_template('test.html')
 
-@app.route("/test-two")
-def test2():
-    return render_template('test-two.html')
-
-@app.route("/new", methods=['GET', 'POST'])
-def new():
-    print request.form
-    print request.files
-    return render_template('new.html')
-
-@app.route('/crop', methods=['GET', 'POST'])
-def crop_image():
-    data = {}
-    data["url"] = "C29_b.jpg"
-    return render_template('crop.html', data=data)
-
-
-@app.route('/crop_points')
-def crop_points():
-    data = request.args
-    filename = data["image"]
-    points = (int(data["x1"]), int(data["y1"]), int(data["x2"]), int(data["y2"]))
-    create_cropped_image(filename, points)
-    return jsonify("OK")
-
-
-def create_cropped_image(filename, points=None):
-    path = app.config["BASEDIR"] + app.config['UPLOAD_FOLDER'] + "/"
-    img = ImagePIL.open(path + filename)
-    edge_size = 500
-    if img.size[0] <= edge_size or img.size[1] <= edge_size:
-        # if the size of the image is smaller than 500px:
-        # make the shortest side the the size of the image
-        edge_size = img.size[0] if img.size[0] < img.size[1] else img.size[1]
-
-    if not points:
-        half_the_width = img.size[0] / 2
-        half_the_height = img.size[1] / 2
-        points = (
-                    half_the_width - (edge_size/2),
-                    half_the_height - (edge_size/2),
-                    half_the_width + (edge_size/2),
-                    half_the_height + (edge_size/2)
-                 )
-
-    cropped_img = img.crop(points)
-    split_name = filename.split(".")
-    cropped_name = split_name[0] + "_cropped." + split_name[1]
-
-    # save the cropped image url
-    image = Image.query.filter_by(url=filename).first()
-    image.cropped_url = cropped_name
-    db.session.add(image)
-    db.session.commit()
-    cropped_img.save(path + cropped_name)
 
 def create_thumbnail(filename, crop_points):
     full_image_path = app.config["BASEDIR"] + app.config['IMAGE_FOLDER'] + "/"
@@ -158,9 +105,11 @@ def create_thumbnail(filename, crop_points):
     thumbnail.save(thumbnail_path, quality=90, optimize=True)
     return app.config["THUMBNAILS"] + new_filename
 
+
 def create_thumbnail_name(filename):
     stemmed = filename.split(".")
     return "{0}_tb.{1}".format(stemmed[0], stemmed[1])
+
 
 @app.route('/create', methods=['GET', 'POST'])
 def create_account():
@@ -172,9 +121,11 @@ def create_account():
         return redirect(url_for('index'))
     return render_template('create.html', create_form=form)
 
+
 def create_new_filename(filename, filename_id):
     stemmed = filename.split(".")
     return "{0}.{1}".format(filename_id, stemmed[-1])
+
 
 @app.route('/add-image', methods=['GET', 'POST'])
 def add_new_image():
