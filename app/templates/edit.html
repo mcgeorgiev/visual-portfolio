@@ -26,6 +26,7 @@
       padding: 20px;
       border: 1px solid #888;
       width: 80%; /* Could be more or less, depending on screen size */
+      min-height: 380px;
   }
 
   /* The Close Button */
@@ -42,6 +43,99 @@
       text-decoration: none;
       cursor: pointer;
   }
+
+
+  #left {
+    width:50%;
+    float: left;
+    /* background-color: pink; */
+  }
+  #right {
+    margin-left: 50%;
+    width: 50%;
+  }
+
+  #edit-thumbnail {
+    display:block;
+    width: 370px;
+    margin:auto;
+    border: 2px solid gray;
+    border-radius: 4px;
+  }
+
+  #edit-form {
+    /* background-color: green; */
+  }
+
+  input {
+    width: 100%;
+    background-color: silver;
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid gray;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+}
+
+  input[type=text]:focus {
+    background-color: lightblue;
+  }
+
+  textarea:focus {
+    background-color: lightblue;
+  }
+
+  textarea {
+    font-family: inherit;
+    font-size: inherit;
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid gray;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+  }
+
+  label {
+    margin: 10px 0;
+    display:inline-block;
+    font-size: 1.5em;
+  }
+
+  #edit-popup-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  button {
+    margin: 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 5px;
+    background: #60B99A;
+  	padding: 15px;
+  }
+
+  button:hover {
+    background: #66bF9F;
+  }
+
+  #message {
+    color: red;
+    padding: 25px 25px 25px 0;
+  }
+
+
+
   </style>
 
   <script>
@@ -71,12 +165,39 @@
 
     <div id="editPopup" class="modal">
 
-      <!-- Modal content -->
+      <!-- Popup content -->
       <div class="modal-content">
         <span class="close">&times;</span>
-        <p>Some text in the Modal..</p>
+        <div id="left">
+          <img id="edit-thumbnail" src="#">
+        </div>
+        <div id="right">
+          <form action="#" id="edit-form">
+              <label>Title</label>:
+              <input id="edit-title" type="text" name="title" value="" ><br>
+              <label>Description:</label><br>
+              <textarea id="edit-description" name="description" ></textarea><br>
+              <input id="edit-id" type="hidden" name="id" value="">
+          </form>
+          <div id="edit-popup-buttons">
+            <div>
+              <div id="message"></div>
+            </div>
+            <div>
+              <button id="preview">Preview</button>
+              <!-- <button>Change Thumbnail Selection</button> -->
+              <button id="accept">Accept</button>
+            </div>
+          </div>
+        </div>
       </div>
 
+    </div>
+
+    <div id="deletePopup" class="model">
+      <div class="modal-content">
+
+      </div>
     </div>
 
   <script>
@@ -133,17 +254,76 @@
       $("#editPopup").css("display", "none");
     });
 
+    function getEditInfo(e, handleData) {
+      var cellElement = $(e.target).parent().parent();
+      var imageID = cellElement.attr('id');
+      // ajax it
+      var imageData;
+      $.ajax({
+        url: "/get_edit_info",
+        type: "get",
+        data: {id: imageID},
+        success: function(result) {
+          handleData(result)
+        }
+      });
+      return imageData;
+    }
+
     $(window).click(function(e) {
       if ($(e.target).hasClass('edit-button')) {
         $("#editPopup").css("display", "block");
+        var imageData = getEditInfo(e, function(result) {
+          console.log(result);
+          $('#edit-title').val(result.title);
+          $('#edit-description').text(result.description);
+          $('#edit-thumbnail').attr("src", result.thumbnail);
+          $("#edit-id").val(result.id);
+
+          $('#edit-title').focus();
+        });
+
       } else if ($("#editPopup").css("display") == "block") {
         if ($(e.target).parents("#editPopup").length === 0) {
           $("#editPopup").css("display", "none");
+          $("#edit-id").val("");
         }
-
       }
-
     });
+
+    $("#accept").click(function() {
+      var newMeta = {};
+      newMeta.id = $("#edit-id").val();
+      newMeta.title = $('#edit-title').val();
+      newMeta.description = $('#edit-description').text();
+      $.ajax({
+        url:"/change_meta_data",
+        type: "post",
+        dataType: "json",
+        data: {imageMeta: JSON.stringify(newMeta)},
+        success: function(result) {
+          // console.log(result.response);
+          $("#message").text(result.response)
+        }
+      });
+    });
+
+    $(".delete").click(function(e) {
+      var cellElement = $(e.target).parent().parent();
+      var imageID = cellElement.attr('id');
+      console.log(imageID);
+      $("#deletePopup").css("display", "block");
+      // $.ajax({
+      //   url:"/delete_image",
+      //   type: "post",
+      //   dataType: "json",
+      //   data: {image_id: imageID},
+      //   success: function(result) {
+      //     // console.log(result.response);
+      //   }
+      // });
+    });
+
   });
 
 

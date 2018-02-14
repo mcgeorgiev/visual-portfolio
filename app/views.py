@@ -51,6 +51,31 @@ def set_positions():
         return jsonify({"response":'New positions set successfully'});
     return jsonify({"response":'An error has occurred. Please try again.'});
 
+@app.route('/get_edit_info', methods=["GET", "POST"])
+def get_edit_info():
+    image_id = request.args.get("id")
+    image = Image.query.filter_by(id=image_id).first()
+    if image:
+        image_data = {}
+        image_data["id"] = image_id
+        image_data["title"] = image.title
+        image_data["description"] = image.description
+        image_data["thumbnail"] = image.cropped_url
+        return jsonify(image_data);
+    return jsonify({"error": "No image found"})
+
+@app.route('/change_meta_data', methods=["GET", "POST"])
+def change_meta_data():
+    data = json.loads(request.form.get("imageMeta", None))
+    if data:
+        image = Image.query.filter_by(id=data["id"]).first()
+        image.title = data["title"]
+        image.description = data["description"]
+        db.session.add(image)
+        db.session.commit()
+
+        return jsonify({"response":'Successfully changed.'});
+    return jsonify({"response":'An error has occurred.'});
 
 @app.route("/edit")
 def edit():
