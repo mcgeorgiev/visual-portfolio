@@ -4,147 +4,8 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="static/stylesheets/edit-popups.css" type="text/css">
 
-  <style>
-    .modal {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
-      z-index: 1; /* Sit on top */
-      left: 0;
-      top: 0;
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgb(0,0,0); /* Fallback color */
-      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  }
-
-  /* Modal Content/Box */
-  .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto; /* 15% from the top and centered */
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%; /* Could be more or less, depending on screen size */
-      min-height: 380px;
-  }
-
-  /* The Close Button */
-  .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-  }
-
-  .close:hover,
-  .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-  }
-
-
-  #left {
-    width:50%;
-    float: left;
-    /* background-color: pink; */
-  }
-  #right {
-    margin-left: 50%;
-    width: 50%;
-  }
-
-  #edit-thumbnail {
-    display:block;
-    width: 370px;
-    margin:auto;
-    border: 2px solid gray;
-    border-radius: 4px;
-  }
-
-  #edit-form {
-    /* background-color: green; */
-  }
-
-  input {
-    width: 100%;
-    background-color: silver;
-    font-family: inherit;
-    font-size: inherit;
-  }
-
-  input[type=text] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 2px solid gray;
-    border-radius: 4px;
-    background-color: #f8f8f8;
-}
-
-  input[type=text]:focus {
-    background-color: lightblue;
-  }
-
-  textarea:focus {
-    background-color: lightblue;
-  }
-
-  textarea {
-    font-family: inherit;
-    font-size: inherit;
-    width: 100%;
-    height: 150px;
-    padding: 12px 20px;
-    box-sizing: border-box;
-    border: 2px solid gray;
-    border-radius: 4px;
-    background-color: #f8f8f8;
-    resize: none;
-  }
-
-  label {
-    margin: 10px 0;
-    display:inline-block;
-    font-size: 1.5em;
-  }
-
-  #edit-popup-buttons {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  button {
-    margin: 10px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 5px;
-    background: #60B99A;
-  	padding: 15px;
-  }
-
-  button:hover {
-    background: #66bF9F;
-  }
-
-  #message {
-    color: red;
-    padding: 25px 25px 25px 0;
-  }
-
-
-
-  </style>
-
-  <script>
-
-  $( function() {
-
-
-  });
-  </script>
     <button id="set-images" type="button">Confirm Images</button>
     <span id="result"></span>
     <div class="thumbnail-grid-edit">
@@ -194,9 +55,17 @@
 
     </div>
 
-    <div id="deletePopup" class="model">
-      <div class="modal-content">
-
+    <div id="" class="deletePopup modal">
+      <div class="modal-content delete-content">
+        <span class="close">&times;</span>
+        <label id="delete-label">Are you sure?</label>
+        <div id="delete-buttons">
+          <button id="delete-cancel">No</button>
+          <button id="delete-confirm">Yes</button>
+        </div>
+        <div id="delete-message">
+          <button id="ok-button">OK</button>
+        </div>
       </div>
     </div>
 
@@ -252,7 +121,15 @@
 
     $('.close').click(function() {
       $("#editPopup").css("display", "none");
+      $(".deletePopup").css("display", "none");
+      resetDeletePopup();
     });
+
+    $("#ok-button").click(function() {
+        $(".deletePopup").css("display", "none");
+        resetDeletePopup();
+    });
+
 
     function getEditInfo(e, handleData) {
       var cellElement = $(e.target).parent().parent();
@@ -308,21 +185,59 @@
       });
     });
 
-    $(".delete").click(function(e) {
-      var cellElement = $(e.target).parent().parent();
-      var imageID = cellElement.attr('id');
-      console.log(imageID);
-      $("#deletePopup").css("display", "block");
-      // $.ajax({
-      //   url:"/delete_image",
-      //   type: "post",
-      //   dataType: "json",
-      //   data: {image_id: imageID},
-      //   success: function(result) {
-      //     // console.log(result.response);
-      //   }
-      // });
+    $(window).click(function(e) {
+      if ($(e.target).hasClass("delete")) {
+        var cellElement = $(e.target).parent().parent();
+        var imageID = cellElement.attr('id');
+        console.log(imageID);
+        $(".deletePopup").css("display", "block");
+        $(".deletePopup").attr("id", imageID);
+
+      } else if ($(".deletePopup").css("display") == "block") {
+        if ($(e.target).parents(".deletePopup").length === 0) {
+          $(".deletePopup").css("display", "none");
+          resetDeletePopup();
+        }
+      }
     });
+
+    function resetDeletePopup() {
+      $("#delete-buttons").css("display", "block");
+      $("#delete-message").css("display", "none");
+      $("#delete-label").text("Are you sure?");
+    }
+
+    function getPositions() {
+      var positionObject = {};
+      $( ".cell" ).each(function(index) {
+        // console.log(index + ": " + $(this).attr("id"));
+        positionObject[index] = $(this).attr("id");
+      });
+      return positionObject;
+    }
+
+    $("#delete-confirm").click(function() {
+      var imageID = $(".deletePopup").attr("id");
+      var positionObject = getPositions();
+      $.ajax({
+        url:"/delete_image",
+        type: "post",
+        dataType: "json",
+        data: {
+          id: imageID,
+          positions: JSON.stringify(positionObject)
+        },
+        success: function(result) {
+          console.log(result.response);
+          $("#delete-buttons").css("display", "none");
+          $("#delete-message").css("display", "block");
+          $("#delete-label").text(result.response);
+        }
+      });
+    });
+
+    $("")
+
 
   });
 

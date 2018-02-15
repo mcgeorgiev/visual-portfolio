@@ -77,6 +77,28 @@ def change_meta_data():
         return jsonify({"response":'Successfully changed.'});
     return jsonify({"response":'An error has occurred.'});
 
+def update_positions(data, position_moved):
+    for position, _id in data.items():
+        position = int(position)
+        _id = int(_id)
+        image = Image.query.filter_by(id=_id).first()
+        image.position = position + position_moved
+        db.session.add(image)
+        db.session.commit()
+
+@app.route('/delete_image', methods=["GET", "POST"])
+def delete_image():
+    image_id = json.loads(request.form.get("id", None))
+    if image_id:
+        image = Image.query.filter_by(id=image_id).first()
+        positions = json.loads(request.form.get("positions", None))
+        positions = {key:val for key, val in positions.items() if val != str(image_id)}
+        update_positions(positions, -1)
+        db.session.delete(image)
+        db.session.commit()
+        return jsonify({"response":'Image successfully deleted.'});
+    return jsonify({"response":'An error has occured.'});
+
 @app.route("/edit")
 def edit():
     data = {}
