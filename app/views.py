@@ -8,6 +8,7 @@ import datetime
 from PIL import Image as ImagePIL
 from operator import itemgetter
 import json
+import os
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
@@ -51,6 +52,7 @@ def set_positions():
         return jsonify({"response":'New positions set successfully'});
     return jsonify({"response":'An error has occurred. Please try again.'});
 
+
 @app.route('/get_edit_info', methods=["GET", "POST"])
 def get_edit_info():
     image_id = request.args.get("id")
@@ -63,6 +65,7 @@ def get_edit_info():
         image_data["thumbnail"] = image.cropped_url
         return jsonify(image_data);
     return jsonify({"error": "No image found"})
+
 
 @app.route('/change_meta_data', methods=["GET", "POST"])
 def change_meta_data():
@@ -77,6 +80,7 @@ def change_meta_data():
         return jsonify({"response":'Successfully changed.'});
     return jsonify({"response":'An error has occurred.'});
 
+
 def update_positions(data, position_moved):
     for position, _id in data.items():
         position = int(position)
@@ -86,11 +90,21 @@ def update_positions(data, position_moved):
         db.session.add(image)
         db.session.commit()
 
+def delete_image_file(thumbnail_url, image_url):
+    print app.config["BASEDIR"] + str(thumbnail_url)
+    try:
+        os.remove(app.config["BASEDIR"] + "/app" + str(thumbnail_url))
+        os.remove(app.config["BASEDIR"] + "/app" + str(image_url))
+        print "deleted successfully"
+    except OSError:
+        print "error while deleting"
+
 @app.route('/delete_image', methods=["GET", "POST"])
 def delete_image():
     image_id = json.loads(request.form.get("id", None))
     if image_id:
         image = Image.query.filter_by(id=image_id).first()
+        delete_image_file(image.cropped_url, image.url)
         positions = json.loads(request.form.get("positions", None))
         positions = {key:val for key, val in positions.items() if val != str(image_id)}
         update_positions(positions, -1)
@@ -98,6 +112,7 @@ def delete_image():
         db.session.commit()
         return jsonify({"response":'Image successfully deleted.'});
     return jsonify({"response":'An error has occured.'});
+
 
 @app.route("/edit")
 def edit():
