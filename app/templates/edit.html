@@ -8,6 +8,7 @@
 
     <button id="set-images" type="button">Confirm Images</button>
     <span id="result"></span>
+
     <div class="thumbnail-grid-edit">
       <div id="sortable" class="grid">
         {% for image in data.images %}
@@ -205,6 +206,7 @@
       $("#delete-buttons").css("display", "block");
       $("#delete-message").css("display", "none");
       $("#delete-label").text("Are you sure?");
+      location.reload();
     }
 
     function getPositions() {
@@ -236,7 +238,7 @@
       });
     });
 
-    $("")
+
 
 
   });
