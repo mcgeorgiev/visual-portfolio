@@ -76,6 +76,24 @@
       opacity: 1.0;
     }
 
+    .add-button {
+      width: 100%;
+      display:block;
+      margin:auto;
+    }
+
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+    }
+
+    .cell {
+      margin: 1em;
+      width: calc(33.3333% - 2rem);
+    }
+/*
+
     @media screen and (min-width: 600px) {
       .grid {
         display: flex;
@@ -93,10 +111,6 @@
       }
     }
 
-    .cell {
-      margin: 1rem;
-    }
-
     @media screen and (min-width: 600px) {
       .cell {
         width: calc(50% - 2rem);
@@ -107,4 +121,4 @@
       .cell {
         width: calc(33.3333% - 2rem);
       }
-    }
+    } */

@@ -90,12 +90,22 @@
     var imageNum = $(".cell").length;
     var rowLength = 3;
     var remainder = imageNum % rowLength;
+
+    if (remainder === 0) {
+      // if remainder is 0: add a single add cell.
+      $(".grid").append("<div class='cell unsortable'>Hi</div>");
+    }
+
     if (remainder !== 0) {
       var emptyCellNum = rowLength - remainder;
       for (var i = 0; i < emptyCellNum; i++) {
         $(".grid").append("<div class='cell unsortable'></div>");
       }
     }
+
+    //add an add button to imageNum + 1
+    var addPosition = imageNum + 1;
+    $('.grid .cell:nth-child(' + addPosition + ')').prepend('<img class="add-button" src="static/assets/add.png" />')
 
 
     $('#set-images').click(function() {
