@@ -5,56 +5,11 @@
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <link rel="stylesheet" href="static/stylesheets/edit-popups.css" type="text/css">
-
-<style>
-
-#edit-bar {
-  display: flex;
-  align-items: flex-start;
-  flex-wrap: nowrap;
-  height: 100%;
-  background-color: #333;
-  color: silver;
-  font-size: 1em;
-}
-
-.edit-bar-cell {
-  width: 25%;
-  text-align: center;
-  padding-top: 1em;
-  padding-bottom: 1em;
-}
-
-.current {
-  color: white;
-}
-
-#outside-container {
-  background-color: gainsboro;
-  margin-bottom: 1em;
-}
-
-#edit-info {
-  background-color: gainsboro;
-}
-
-#edit-container {
-  border: 2px solid silver;
-  border-radius: 4px;
-  margin: auto;
-  width: 780px;
-  background-color: white;
-}
-
-</style>
+  <link rel="stylesheet" href="static/stylesheets/dev-bar.css" type="text/css">
 
 
-  <div id="edit-bar">
-    <a class="edit-bar-cell"><div>Dashboard</div></a>
-    <a class="edit-bar-cell" href="{{ url_for('add_new_image')}}"><div>Add</div></a>
-    <a class="edit-bar-cell" href="{{ url_for('edit')}}"><div class="current">Edit</div></a>
-    <a class="edit-bar-cell"><div>Preview</div></a>
-  </div>
+
+  {% include 'dev-bar.html'%}
 
 <div id="edit-info">
   <button id="set-images" type="button">Confirm Images</button>

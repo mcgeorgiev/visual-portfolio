@@ -243,43 +243,6 @@ def add_new_image():
     return render_template('add-image.html', add_form=form, data=data)
 
 
-@app.route('/add', methods=['GET', 'POST'])
-def add_image():
-    data = {}
-    owner = User.query.first()
-    data["name"] = owner.name
-    print owner
-    form = AddForm()
-    if form.validate_on_submit():
-        filename = None
-        try:
-            filename = secure_filename(form.picture.data.filename)
-        except:
-            pass
-
-        if filename is None:
-            flash('No selected file')
-        elif allowed_file(filename):
-            form.picture.data.save(app.config["BASEDIR"] + app.config['UPLOAD_FOLDER'] + "/" + filename)
-            title = form.title.data
-            image = Image(title=title,
-                slug=slugify(title),
-                description=form.description.data,
-                timestamp=datetime.datetime.now(),
-                url=filename,
-                user_id=owner.id)
-            db.session.add(image)
-            db.session.commit()
-            flash('Added image successfully')
-        else:
-            flash('Incorrect file type')
-
-    #   return redirect(url_for('uploaded_file', filename=filename))
-
-    return render_template("add.html",
-                            add_form=form, data=data)
-
-
 @app.route('/<title_slug>')
 def image(title_slug):
     data = {}
