@@ -17,9 +17,9 @@
       display: block;
     }
 
-    .cell {
+    /* .cell {
       position: relative;
-    }
+    } */
 
 
     .overlay {
@@ -82,6 +82,10 @@
       margin:auto;
     }
 
+    .add-cell:hover {
+      opacity: 0.5;
+    }
+
     .grid {
       display: flex;
       flex-wrap: wrap;
@@ -89,6 +93,7 @@
     }
 
     .cell {
+      position: relative;
       margin: 1em;
       width: calc(33.3333% - 2rem);
     }

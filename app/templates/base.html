@@ -9,31 +9,10 @@
     </head>
     <body>
 
-      <nav>
-        <ul class="main-nav">
-          <li><a href="#">Contact</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Home</a></li>
-        </ul>
-      </nav>
-
-        <div class="title">
-          {% if data %}
-            <a href="/">
-              <h1>{{ data.name }}</h1>
-            </a>
-          {% else %}
-            <h1>New User</h1>
-          {% endif %}
-        </div>
-        <div class="container">
-            {% block content %}
-            {% endblock %}
-        </div>
+      <div class="container">
+          {% block content %}
+          {% endblock %}
+      </div>
 
     </body>
-    <br/>
-    <div id="footer">
-      <p>&copy; 2017 Footer stuff</p>
-    </div>
 </html>
