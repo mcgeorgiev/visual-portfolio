@@ -15,7 +15,3 @@ class CreateForm(Form):
     email = StringField('Email address', validators=[DataRequired(), Email()])
     password = PasswordField()
     submit = SubmitField('Create Account')
-#
-#
-# class AboutForm(Form):
-#         about = TextAreaField('About yourself')
