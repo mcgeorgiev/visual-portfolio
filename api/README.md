@@ -12,6 +12,14 @@ Install Yarn:
 
     brew install yarn
 
-    yarn init 
+    yarn init
 
     yarn install
+
+Setup:
+
+    export FLASK_APP=run.py
+
+Run the App:
+
+    flask run

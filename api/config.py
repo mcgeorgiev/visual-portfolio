@@ -9,6 +9,7 @@ IMAGES = "/static/images/"
 
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASEDIR, 'app.db')
 SQLALCHEMY_MIGRATE_REPO = os.path.join(BASEDIR, 'db_repository')
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 WTF_CSRF_ENABLED = True
 SECRET_KEY = 'this-is-a-secret-key'

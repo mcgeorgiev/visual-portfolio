@@ -37,6 +37,23 @@ def index():
     return render_template('index.html', data=data)
 
 
+@app.route('/create', methods=['GET', 'POST'])
+def create_account():
+    if request.method == 'GET':
+        if User.query.first():
+            return redirect(url_for('index'))
+
+    elif request.method == 'POST':
+        form = CreateForm()
+        if form.validate_on_submit():
+            user = User(name=form.name.data, email=form.email.data, password=form.password.data)
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('index'))
+
+    return render_template('create.html', create_form=form)
+
+
 @app.route('/set_positions', methods=["GET", "POST"])
 def set_positions():
     data = json.loads(request.form.get("postitionData", None))
@@ -173,17 +190,6 @@ def create_thumbnail_name(filename):
     return "{0}_tb.{1}".format(stemmed[0], stemmed[1])
 
 
-@app.route('/create', methods=['GET', 'POST'])
-def create_account():
-    form = CreateForm()
-    if form.validate_on_submit():
-        user = User(name=form.name.data, email=form.email.data, password=form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for('index'))
-    return render_template('create.html', create_form=form)
-
-
 def create_new_filename(filename, filename_id):
     stemmed = filename.split(".")
     return "{0}.{1}".format(filename_id, stemmed[-1])
@@ -243,20 +249,20 @@ def add_new_image():
     return render_template('add-image.html', add_form=form, data=data)
 
 
-@app.route('/<title_slug>')
-def image(title_slug):
-    data = {}
-    owner = User.query.first()
-    data["name"] = owner.name
-    image = Image.query.filter_by(slug=title_slug).first()
-    if image == None:
-        flash('Incorrect URL')
-        return redirect(url_for('index'))
-    data["title"] = image.title
-    data["description"] = image.description
-    data["url"] = image.url
-    return render_template('image.html',
-                           data=data)
+# @app.route('/<title_slug>')
+# def image(title_slug):
+#     data = {}
+#     owner = User.query.first()
+#     data["name"] = owner.name
+#     image = Image.query.filter_by(slug=title_slug).first()
+#     if image == None:
+#         flash('Incorrect URL')
+#         return redirect(url_for('index'))
+#     data["title"] = image.title
+#     data["description"] = image.description
+#     data["url"] = image.url
+#     return render_template('image.html',
+#                            data=data)
 
 
 def slugify(text, delim=u'-'):
