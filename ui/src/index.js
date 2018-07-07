@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './App';
+import Landing from './Landing';
 
 ReactDOM.render(
-  <App />,
-  <Header />
+  <Landing />,
   document.getElementById('app')
 );
 
