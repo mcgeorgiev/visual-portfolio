@@ -1,10 +1,11 @@
 import React from 'react';
+import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 import Login from './Login';
 import Landing from './Landing';
 import { spy, stub } from 'sinon';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
 
 describe('<Landing />', () => {
   it('renders the Login wrapper', () => {
@@ -31,8 +32,6 @@ describe('<Landing />', () => {
 describe('Login input', () => {
   const onClick = spy(Login.prototype, 'submitLoginCredentials');
 
-
-
   it('should set email in Login Component', () => {
     const wrapper = shallow(<Login />);
     wrapper.find({name: 'email'}).simulate('change', {target: {name: 'email', value: 'example@example.com'}});
@@ -49,7 +48,6 @@ describe('Login input', () => {
     const loginComponent = shallow(<Login />);
     loginComponent.find('button').simulate('click');
     expect(Login.prototype.submitLoginCredentials.calledOnce).to.equal(true);
-
   });
 
   it('flash no details entered on submit of empty email fields', () => {
@@ -67,10 +65,8 @@ describe('Login input', () => {
     expect(loginComponent.find('.alert').text()).to.not.equal('Please enter a password and email address.');
   });
 
-  // any empty fields -> flash fill field message
 
   // submit successfully -> redirect
-
   // submit unsucessfully -> flash incorrect
 
 })
