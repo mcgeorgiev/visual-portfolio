@@ -10,7 +10,7 @@ class UserProfile(models.Model):
         app_label = 'portfolio'
 
     def __unicode__(self):
-        return self.user.username
+        return self.user.email
 
     def __str__(self):
         return self.user

@@ -17,8 +17,15 @@ class ApiTest(TestCase):
         response = self.client.post('/api/create', data={
             'fullname': 'Joe Bloggs', 'email':'example@example.com','password':'secret-password!'
         })
-        self.assertEqual(response.status_code, 200)
-        # self.assertIn('example@example.com', response.content.decode())
+        self.assertEqual(response.status_code, 201)
+
+    def test_create_response_contains_name(self):
+        response = self.client.post('/api/create', data={
+            'fullname': 'Joe Bloggs', 'email':'example@example.com','password':'secret-password!'
+        })
+        self.assertIn('example@example.com', response.content.decode())
+
+
 
     # def test_created_user(self):
     #     first_user = UserProfile()

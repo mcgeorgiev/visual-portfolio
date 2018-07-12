@@ -22,7 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', views.home_page, name='home'),
     url(r'^api/login$', views.login, name='login'),
-    url(r'^api/create', views.create, name='create'),
     url(r'^api/create$', views.UserView.as_view(), name="create"),
 
 ]

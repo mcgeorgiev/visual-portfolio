@@ -12,11 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('email', 'password')
 
-    def create(self):
-        user = User.objects.create_user(email='jlennon@beatles.com',
-                                        password='glass onion')
+    def create(self, data):
+        user = User.objects.create_user(username=data["email"], email=data["email"], password=data["password"])
         user.save()
         return user
-
-    # def create(self, validated_data):
-    #     return Comment.objects.create(**validated_data)

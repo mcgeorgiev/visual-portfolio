@@ -14,11 +14,6 @@ def login(request):
     return HttpResponse()
 
 
-def create(request):
-    return HttpResponse()
-
-
-
 class UserView(APIView):
 
     def post(self, request, format=None):
