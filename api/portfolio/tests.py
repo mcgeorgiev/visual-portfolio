@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.urls import resolve
 from portfolio.views import home_page
-from portfolio.models import UserProfile
+from portfolio.models import Profile
+import json
 
 class ApiTest(TestCase):
 
@@ -14,18 +15,21 @@ class ApiTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_create_route_is_postable(self):
-        response = self.client.post('/api/create', data={
-            'fullname': 'Joe Bloggs', 'email':'example@example.com','password':'secret-password!'
-        })
+        data = {
+            'user': {
+                'email': 'example@example.com',
+                'password': 'secret-password!'
+            },
+            'full_name': 'Joe Bloggs'
+        }
+        response = self.client.post('/api/create', data=json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
-    def test_create_response_contains_name(self):
-        response = self.client.post('/api/create', data={
-            'fullname': 'Joe Bloggs', 'email':'example@example.com','password':'secret-password!'
-        })
-        self.assertIn('example@example.com', response.content.decode())
-
-
+    # def test_create_response_contains_name(self):
+    #     response = self.client.post('/api/create', data={
+    #         'fullname': 'Joe Bloggs', 'email':'example@example.com','password':'secret-password!'
+    #     })
+    #     self.assertIn('example@example.com', response.content.decode())
 
     # def test_created_user(self):
     #     first_user = UserProfile()
@@ -36,7 +40,6 @@ class ApiTest(TestCase):
     #     second_user.full_name = 'Mike'
     #     second_user.save()
     #
-    # UserProfile.
     #     saved_users = UserProfile.objects.all()
     #     self.assertEqual(saved_users.count(), 2)
     #

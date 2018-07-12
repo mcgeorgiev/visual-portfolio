@@ -1,18 +1,23 @@
-from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import UserProfile
-
+from .models import Profile
 
 class UserSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField()
-    password = serializers.CharField(write_only=True)
-
     class Meta:
         model = User
         fields = ('email', 'password')
 
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(allow_null=False, required=True, write_only=True)
+    full_name = serializers.CharField()
+
+    class Meta:
+        model = Profile
+        fields = ('full_name', 'user')
+
     def create(self, data):
-        user = User.objects.create_user(username=data["email"], email=data["email"], password=data["password"])
-        user.save()
-        return user
+        user_data = data.pop('user')
+        user = UserSerializer.create(UserSerializer(), user_data)
+        profile = Profile().__class__.objects.create(full_name=data["full_name"], user=user)
+        return profile
