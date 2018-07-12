@@ -6,45 +6,59 @@ import json
 
 class ApiTest(TestCase):
 
-    def test_root_resolves_to_home_page_view(self):
-        found = resolve('/')
-        self.assertEqual(found.func, home_page)
-
-    def test_login_route_is_postable(self):
-        response = self.client.post('/api/login', data={'email':'example@example.com','password':'secret-password!'})
-        self.assertEqual(response.status_code, 200)
-
-    def test_create_route_is_postable(self):
-        data = {
+    @classmethod
+    def setUpTestData(cls):
+        cls.data = {
             'user': {
                 'email': 'example@example.com',
                 'password': 'secret-password!'
             },
             'full_name': 'Joe Bloggs'
         }
-        response = self.client.post('/api/create', data=json.dumps(data), content_type='application/json')
+
+    # def test_root_resolves_to_home_page_view(self):
+    #     found = resolve('/')
+    #     self.assertEqual(found.func, home_page)
+    #
+    # def test_login_route_is_postable(self):
+    #     response = self.client.post('/api/login', data={'email':'example@example.com','password':'secret-password!'})
+    #     self.assertEqual(response.status_code, 200)
+    #
+    def test_posted_profile_is_created(self):
+        self.assertEqual(Profile.objects.all().count(), 0)
+        response = self.client.post('/api/create', data=json.dumps(self.data), content_type='application/json')
+        self.assertEqual(Profile.objects.all().count(), 1)
         self.assertEqual(response.status_code, 201)
 
-    # def test_create_response_contains_name(self):
-    #     response = self.client.post('/api/create', data={
-    #         'fullname': 'Joe Bloggs', 'email':'example@example.com','password':'secret-password!'
-    #     })
-    #     self.assertIn('example@example.com', response.content.decode())
+    def test_saved_password_is_hashed(self):
+        self.client.post('/api/create', data=json.dumps(self.data), content_type='application/json')
+        profile = Profile.objects.get(full_name='Joe Bloggs')
+        self.assertNotIn(self.data['user']['password'], profile.user.password)
 
-    # def test_created_user(self):
-    #     first_user = UserProfile()
-    #     first_user.full_name = 'Joe Bloggs'
-    #     first_user.save()
-    #
-    #     second_user = UserProfile()
-    #     second_user.full_name = 'Mike'
-    #     second_user.save()
-    #
-    #     saved_users = UserProfile.objects.all()
-    #     self.assertEqual(saved_users.count(), 2)
-    #
-    #     first_saved_user = saved_users[0]
-    #     second_saved_user = saved_users[1]
-    #     self.assertEqual(first_saved_user.text, 'Joe Bloggs')
-    #     self.assertEqual(second_saved_user.text, 'Mike')
+    def test_multiple_users_cannot_be_created(self):
+        self.assertEqual(Profile.objects.all().count(), 0)
+        self.client.post('/api/create', data=json.dumps(self.data), content_type='application/json')
+        self.assertEqual(Profile.objects.all().count(), 1)
+        response = self.client.post('/api/create', data=json.dumps(self.data), content_type='application/json')
+        self.assertEqual(Profile.objects.all().count(), 1)
+        self.assertEqual(response.status_code, 409)
+
+    def test_created_user_profile(self):
+        first_user = Profile()
+
+        first_user.full_name = 'Joe Bloggs'
+        first_user.full_name = 'Joe Bloggs'
+        first_user.save()
+
+        second_user = Profile()
+        second_user.full_name = 'Mike'
+        second_user.save()
+
+        saved_users = Profile.objects.all()
+        self.assertEqual(saved_users.count(), 2)
+
+        first_saved_user = saved_users[0]
+        second_saved_user = saved_users[1]
+        self.assertEqual(first_saved_user.full_name, 'Joe Bloggs')
+        self.assertEqual(second_saved_user.full_name, 'Mike')
 

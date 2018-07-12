@@ -2,10 +2,20 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import Profile
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'password')
+
+    def create(self, validated_data):
+        if User().__class__.objects.filter(email=validated_data["email"]).exists():
+            return False
+
+        return User().__class__.objects.create_user(
+            username=validated_data["email"],
+            email=validated_data["email"],
+            password=validated_data["password"])
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -16,8 +26,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ('full_name', 'user')
 
-    def create(self, data):
-        user_data = data.pop('user')
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
         user = UserSerializer.create(UserSerializer(), user_data)
-        profile = Profile().__class__.objects.create(full_name=data["full_name"], user=user)
-        return profile
+        if not user:
+            return False
+
+        return Profile().__class__.objects.create(full_name=validated_data["full_name"], user=user)
