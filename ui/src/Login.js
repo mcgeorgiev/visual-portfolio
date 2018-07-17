@@ -24,16 +24,16 @@ class Login extends Component {
       alert: (((this.state.email === '') || (this.state.password === '')) ? 'Please enter a password and email address.' : '')
     });
 
-    axios.post('https://google.com', {
-      email: this.state.email,
-      password: this.state.password
-    })
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    // axios.post('https://google.com', {
+    //   email: this.state.email,
+    //   password: this.state.password
+    // })
+    // .then(response => {
+    //   console.log(response);
+    // })
+    // .catch(error => {
+    //   console.log(error);
+    // });
   }
 
   render() {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import Login from './Login';
+import Signup from './Signup';
 
 class Landing extends Component {
   constructor() {
@@ -12,6 +12,7 @@ class Landing extends Component {
       <div>
         Landing
         <Login />
+        <Signup />
       </div>
     );
   }
