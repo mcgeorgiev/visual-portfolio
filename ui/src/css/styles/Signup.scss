@@ -1,0 +1,31 @@
+.signup input,
+.signup button
+{
+  width: 100%;
+  box-sizing: border-box;
+  font-size: inherit;
+  display: block;
+  margin-top: 1em;
+  padding: 0.5em;
+  color: inherit;
+}
+
+.signup {
+  padding: 0 5% 0 5%;
+  position: relative;
+}
+
+.show-password-icon {
+  width: 40px; /* you can use % */
+  height: auto;
+  cursor: pointer;
+  position: absolute;
+  right: 5%;
+  margin-top: 1.3em;
+  margin-right: 0.5em;
+}
+
+.signup h2 {
+  text-align: center;
+  padding-top: 2em;
+}

@@ -4,7 +4,7 @@ import Landing from './Landing'
 import Dashboard from './Dashboard'
 
 const Main = () => (
-  <main>
+  <main className='mainWrapper'>
     <Switch>
       <Route exact path='/' component={Landing}/>
       <Route path='/Dashboard' component={Dashboard}/>

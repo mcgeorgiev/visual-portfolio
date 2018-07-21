@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+const eye = require('./css/styles/images/eye.svg');
+const eyeOff = require('./css/styles/images/eye-off.svg');
 
 class Signup extends Component {
   constructor() {
@@ -8,6 +10,7 @@ class Signup extends Component {
       email: '',
       password: '',
       showPassword: 'password',
+      eyeIcon: eye
     };
   }
 
@@ -19,7 +22,8 @@ class Signup extends Component {
 
   toggleShowPassword = () => {
     this.setState({
-      showPassword: this.state.showPassword === 'text' ? 'password' : 'text'
+      showPassword: this.state.showPassword === 'text' ? 'password' : 'text',
+      eyeIcon: this.state.eyeIcon === eye ? eyeOff : eye
     });
   };
 
@@ -43,17 +47,19 @@ class Signup extends Component {
 
 render() {
     return (
-      <div>
+      <div className='signup'>
         <h2>Signup</h2>
         <div className="alert">
           {this.state.alert}
         </div>
         <form className='signup'>
+          <i class="fas fa-eye"/>
+          <br/>
           <input type="text" name="fullname" onChange={this.handleInputChange} />
           <input type="text" name="email" onChange={this.handleInputChange} />
-          <img srcclassName='showPasswordButton' onClick={this.toggleShowPassword}>Toggle</img>
-          <input type={this.state.showPassword} name="password" onChange={this.handleInputChange} />
-          <button type="button" onClick={this.submitCredentials}>Signup</button>
+            <img src={this.state.eyeIcon} onClick={this.toggleShowPassword} className='show-password-icon'/>
+            <input type={this.state.showPassword} name="password" onChange={this.handleInputChange} />
+          <button type="button" onClick={this.submitCredentials}>SIGN ME UP</button>
         </form>
       </div>
     );

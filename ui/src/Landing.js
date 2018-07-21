@@ -9,9 +9,8 @@ class Landing extends Component {
 
   render() {
     return(
-      <div>
-        Landing
-        <Login />
+      <div className='landing-block'>
+        {/*<Login />*/}
         <Signup />
       </div>
     );
