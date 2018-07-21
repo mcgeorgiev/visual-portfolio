@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {withRouter} from "react-router-dom";
 const axios = require('axios');
+
 const eye = require('./css/styles/images/eye.svg');
 const eyeOff = require('./css/styles/images/eye-off.svg');
 
@@ -63,6 +64,7 @@ class Signup extends Component {
     } else {
       this.createAccount();
     }
+    this.props.history.push("/dashboard");
   };
 
   createAccount = () => {
