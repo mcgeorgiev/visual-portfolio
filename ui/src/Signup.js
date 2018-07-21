@@ -47,20 +47,21 @@ class Signup extends Component {
 
 render() {
     return (
-      <div className='signup'>
-        <h2>Signup</h2>
+      <div className='signup landing-form'>
+        <h2>Sign Up</h2>
         <div className="alert">
           {this.state.alert}
         </div>
         <form className='signup'>
-          <i class="fas fa-eye"/>
-          <br/>
-          <input type="text" name="fullname" onChange={this.handleInputChange} />
-          <input type="text" name="email" onChange={this.handleInputChange} />
-            <img src={this.state.eyeIcon} onClick={this.toggleShowPassword} className='show-password-icon'/>
-            <input type={this.state.showPassword} name="password" onChange={this.handleInputChange} />
+          <input type="text" name="fullname" onChange={this.handleInputChange} placeholder='Full Name'/>
+          <input type="text" name="email" onChange={this.handleInputChange} placeholder='Email'/>
+          <img src={this.state.eyeIcon} onClick={this.toggleShowPassword} className='show-password-icon'/>
+          <input type={this.state.showPassword} name="password" onChange={this.handleInputChange} placeholder='Password' />
           <button type="button" onClick={this.submitCredentials}>SIGN ME UP</button>
         </form>
+        <div className='terms-conditions'>
+          By signing up, you agree to our <b>Terms</b>. Learn how we collect, use and share your data in out <b>Data Policy</b> and how we use cookies and similar technology in out <b>Cookies Policy</b>.
+        </div>
       </div>
     );
   }

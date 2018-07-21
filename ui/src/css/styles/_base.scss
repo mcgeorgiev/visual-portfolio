@@ -1,14 +1,17 @@
 @import '_reset';
 @import '_themeColours';
 @import '_button';
+@import '_mixins';
 
 $small-font-size: 1.5em;
+$tiny-font-size: 0.75em;
 
 body {
-  font: 100% Helvetica, sans-serif;
-  background-color: $themeColor-Light;
+  font-family: 'Lato', 'Arial', 'sans-serif';
+  //background-color: $themeColor-Light;
   font-size: $small-font-size;
   color: $themeColor-Black;
+  background: linear-gradient(to bottom,  $themeColor-Light 0%, $themeColor-Light 65%, white 35%, white 100%);
 }
 
 

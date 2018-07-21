@@ -7,11 +7,24 @@
   display: block;
   margin-top: 1em;
   padding: 0.5em;
-  color: inherit;
+  font: inherit;
+}
+
+.signup .alert {
+  min-height: 1em;
+  line-height: 1;
+  color: red;
+  padding: 0 7% 0 7%;
+}
+
+.terms-conditions {
+  text-align: center;
+  font-size: $tiny-font-size;
+  padding: 0 15% 0 15%;
 }
 
 .signup {
-  padding: 0 5% 0 5%;
+  padding: 0 7% 7% 7%;
   position: relative;
 }
 
@@ -22,10 +35,26 @@
   position: absolute;
   right: 5%;
   margin-top: 1.3em;
-  margin-right: 0.5em;
+  margin-right: 1em;
 }
 
 .signup h2 {
   text-align: center;
   padding-top: 2em;
+}
+
+.signup input {
+  border: 2px solid $themeColor-Light;
+  border-radius: 4px;
+  background-color: white;
+  color: inherit;
+}
+
+input:focus {
+  border: 2px solid $themeColor-Black;
+  outline: none;
+}
+
+.landing-form {
+  border-bottom: 3px solid $themeColor-Dark;
 }
