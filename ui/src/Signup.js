@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {withRouter} from "react-router-dom";
 const eye = require('./css/styles/images/eye.svg');
 const eyeOff = require('./css/styles/images/eye-off.svg');
 
@@ -39,6 +40,7 @@ class Signup extends Component {
         alert: 'This email address is already in use.'
       });
     }
+    this.props.history.push("/dashboard");
   };
 
   createAccount = () => {
@@ -67,4 +69,4 @@ render() {
   }
 }
 
-export default Signup;
+export default withRouter(Signup);
