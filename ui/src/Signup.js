@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {withRouter} from "react-router-dom";
+const axios = require('axios');
 const eye = require('./css/styles/images/eye.svg');
 const eyeOff = require('./css/styles/images/eye-off.svg');
 
@@ -10,7 +12,8 @@ class Signup extends Component {
       email: '',
       password: '',
       showPassword: 'password',
-      eyeIcon: eye
+      eyeIcon: eye,
+      validationErrors: {}
     };
   }
 
@@ -27,22 +30,65 @@ class Signup extends Component {
     });
   };
 
-  submitCredentials = () => {
-    this.setState({
-      alert: (((this.state.fullname === '') ||
-               (this.state.email === '') ||
-               (this.state.password === '')) ? 'Please enter all fields.' : '')
-    });
+  validate = () => {
+    let empty = ((this.state.fullname === '') ||
+      (this.state.email === '') ||
+      (this.state.password === ''));
+    let passwordValid = this.state.password.length > 6;
+    let fullnameValid = this.state.fullname.length > 0;
+    let emailValid = this.state.email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
 
-    if (this.createAccount() === 409) {
+    let alerts = [];
+
+    if (!fullnameValid) {
+      alerts.push("Please enter your full name.");
+    } else if (!emailValid) {
+      alerts.push("Please enter a valid email.");
+    } else if (!passwordValid) {
+      alerts.push("Password must have six or more characters.");
+    } else if (empty) {
+      alerts.push('Please enter all fields.');
+    }
+    return alerts;
+  };
+
+  submitCredentials = () => {
+
+    const alerts = this.validate();
+
+    if (Array.isArray(alerts) || alerts.length) {
       this.setState({
-        alert: 'This email address is already in use.'
+        alert: alerts[0]
       });
+    } else {
+      this.createAccount();
     }
   };
 
   createAccount = () => {
-
+    axios.post('http://127.0.0.1:8000/api/create', {
+    user: {
+      email: this.state.email,
+      password: this.state.password
+    },
+    full_name: this.state.fullname,
+    })
+    .then((response) => {
+      this.props.history.push("/dashboard");
+    })
+    .catch((error) => {
+      let alert = '';
+      if (error.response) {
+        if (error.response.status === 409) {
+            alert = 'This email address is already in use.';
+        } else if (error.response.status === 400) {
+            alert = 'Invalid data sent.';
+        }
+        this.setState({
+          alert: alert
+        });
+      }
+    });
   };
 
 render() {
@@ -57,7 +103,7 @@ render() {
           <input type="text" name="email" onChange={this.handleInputChange} placeholder='Email'/>
           <img src={this.state.eyeIcon} onClick={this.toggleShowPassword} className='show-password-icon'/>
           <input type={this.state.showPassword} name="password" onChange={this.handleInputChange} placeholder='Password' />
-          <button type="button" onClick={this.submitCredentials}>SIGN ME UP</button>
+          <button type="button" onClick={this.submitCredentials} className='signup-button'>SIGN ME UP</button>
         </form>
         <div className='terms-conditions'>
           By signing up, you agree to our <b>Terms</b>. Learn how we collect, use and share your data in out <b>Data Policy</b> and how we use cookies and similar technology in out <b>Cookies Policy</b>.
@@ -67,4 +113,4 @@ render() {
   }
 }
 
-export default Signup;
+export default withRouter(Signup);
