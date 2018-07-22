@@ -2,14 +2,7 @@ import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Landing from './Landing'
 import Dashboard from './Dashboard'
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={(props) => (
-    true === false
-      ? <Component {...props} />
-      : <Redirect to='/' />
-  )} />
-);
+import PrivateRoute from "../helpers/Auth";
 
 const App = () => (
   <div>
