@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from './App';
+import App from './js/components/App';
 import { BrowserRouter } from 'react-router-dom';
 import './css/styles/Landing.scss';
 
 ReactDOM.render(
-  <BrowserRouter>
+  <BrowserRouter >
     <App />
   </BrowserRouter>,
   document.getElementById('app')

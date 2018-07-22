@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {withRouter} from "react-router-dom";
 const axios = require('axios');
 
-const eye = require('./css/styles/images/eye.svg');
-const eyeOff = require('./css/styles/images/eye-off.svg');
+const eye = require('../../css/styles/images/eye.svg');
+const eyeOff = require('../../css/styles/images/eye-off.svg');
 
 class Signup extends Component {
   constructor() {
@@ -56,15 +56,14 @@ class Signup extends Component {
   submitCredentials = () => {
 
     const alerts = this.validate();
-
-    if (Array.isArray(alerts) || alerts.length) {
+    console.log(alerts);
+    if (Array.isArray(alerts) && alerts.length) {
       this.setState({
         alert: alerts[0]
       });
     } else {
       this.createAccount();
     }
-    this.props.history.push("/dashboard");
   };
 
   createAccount = () => {

@@ -7,11 +7,13 @@ class Dashboard extends Component {
 
   render() {
     return(
-      <div >
-        Dashboard! Hey!
+      <div className='landing-block'>
+        Ahoyhoy!
       </div>
     );
   }
 }
 
-export default Dashboard
+export default Dashboard;
+
+

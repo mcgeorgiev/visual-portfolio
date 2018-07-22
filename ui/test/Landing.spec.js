@@ -1,9 +1,9 @@
 import React from 'react';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
-import Login from './Login';
-import Signup from './Signup'
-import Landing from './Landing';
+import Login from '../src/js/components/Login';
+import Signup from '../src/js/components/Signup'
+import Landing from '../src/js/components/Landing';
 import { spy, stub } from 'sinon';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
