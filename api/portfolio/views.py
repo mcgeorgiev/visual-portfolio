@@ -14,7 +14,7 @@ def login(request):
     return HttpResponse()
 
 
-class UserView(APIView):
+class CreateView(APIView):
 
     def post(self, request):
         serializer = ProfileSerializer(data=request.data)

@@ -17,11 +17,14 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 from portfolio import views
+from rest_framework_jwt.views import obtain_jwt_token
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', views.home_page, name='home'),
     url(r'^api/login$', views.login, name='login'),
-    url(r'^api/create$', views.UserView.as_view(), name="create"),
+    url(r'^api/create$', views.CreateView.as_view(), name="create"),
+    url(r'^api-token-auth/', obtain_jwt_token),
 
 ]
