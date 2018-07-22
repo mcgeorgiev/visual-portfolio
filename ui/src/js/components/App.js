@@ -1,7 +1,15 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import Landing from './Landing'
 import Dashboard from './Dashboard'
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    true === false
+      ? <Component {...props} />
+      : <Redirect to='/' />
+  )} />
+);
 
 const App = () => (
   <div>
@@ -11,7 +19,7 @@ const App = () => (
     <main className='mainWrapper'>
       <Switch>
         <Route exact path='/' component={Landing}/>
-        <Route path='/dashboard' component={Dashboard}/>
+        <PrivateRoute path='/dashboard' component={Dashboard}/>
         <Route component={Landing} />
       </Switch>
     </main>
