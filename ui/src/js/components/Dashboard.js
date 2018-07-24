@@ -7,7 +7,7 @@ class Dashboard extends Component {
 
   render() {
     return(
-      <div className='landing-block'>
+      <div className='landing-block' id='dash-board'>
         Ahoyhoy!
       </div>
     );

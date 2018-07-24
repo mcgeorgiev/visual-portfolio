@@ -1,18 +1,17 @@
+import os
 import time
 import unittest
-import uuid
 
-from django.test import LiveServerTestCase
 from selenium import webdriver
-from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.common.keys import Keys
-
-MAX_WAIT = 10
 
 class CreateAccountTest(unittest.TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        executable_path = "/usr/local/bin/chromedriver"
+        os.environ["webdriver.chrome.driver"] = executable_path
+
+        self.browser = webdriver.Chrome(executable_path=executable_path)
+        self.live_server_url = 'http://127.0.0.1:8000'
 
     def tearDown(self):
         self.browser.quit()
@@ -34,10 +33,11 @@ class CreateAccountTest(unittest.TestCase):
         sign_up_button =self.browser.find_element_by_class_name('signup-button')
 
         full_name_input.send_keys('Joe Bloggs')
-        email_input.send_keys( uuid.uuid4().hex + '@bloggs.com')
+        email_input.send_keys('joe@bloggs.com')
         password_input.send_keys('secret-password')
 
         sign_up_button.click()
+        time.sleep(1)
 
         self.assertIn('dashboard', self.browser.current_url)
 
