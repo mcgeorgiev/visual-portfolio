@@ -2,7 +2,7 @@ import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Landing from './Landing'
 import Dashboard from './Dashboard'
-import {PrivateRoute} from "../helpers/Auth";
+import {PrivateRoute, Auth} from "../helpers/Auth";
 
 
 const App = () => (

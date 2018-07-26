@@ -1,9 +1,12 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {withRouter} from "react-router-dom";
+import {Auth} from "../helpers/Auth";
+
 const axios = require('axios');
 
 const eye = require('../../css/styles/images/eye.svg');
 const eyeOff = require('../../css/styles/images/eye-off.svg');
+
 
 class Signup extends Component {
   constructor() {
@@ -74,8 +77,10 @@ class Signup extends Component {
     },
     full_name: this.state.fullname,
     })
-    .then((response) => {
-      this.props.history.push("/dashboard");
+    .then(() => {
+      Auth.obtain(this.state.email, this.state.password, () => {
+        this.props.history.push("/dashboard");
+      })
     })
     .catch((error) => {
       let alert = '';
