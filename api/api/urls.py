@@ -17,8 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 from portfolio import views
-from rest_framework_jwt.views import obtain_jwt_token
-
+from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,5 +25,6 @@ urlpatterns = [
     url(r'^api/login$', views.login, name='login'),
     url(r'^api/create$', views.CreateView.as_view(), name="create"),
     url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^api-token-verify/', verify_jwt_token),
 
 ]

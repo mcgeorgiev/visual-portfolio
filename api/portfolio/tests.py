@@ -16,14 +16,6 @@ class ApiTest(TestCase):
             'full_name': 'Joe Bloggs'
         }
 
-    # def test_root_resolves_to_home_page_view(self):
-    #     found = resolve('/')
-    #     self.assertEqual(found.func, home_page)
-    #
-    # def test_login_route_is_postable(self):
-    #     response = self.client.post('/api/login', data={'email':'example@example.com','password':'secret-password!'})
-    #     self.assertEqual(response.status_code, 200)
-    #
     def test_posted_profile_is_created(self):
         self.assertEqual(Profile.objects.all().count(), 0)
         response = self.client.post('/api/create', data=json.dumps(self.data), content_type='application/json')
@@ -61,4 +53,5 @@ class ApiTest(TestCase):
         second_saved_user = saved_users[1]
         self.assertEqual(first_saved_user.full_name, 'Joe Bloggs')
         self.assertEqual(second_saved_user.full_name, 'Mike')
+
 

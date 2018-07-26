@@ -1,3 +1,6 @@
+from rest_framework.permissions import AllowAny
+from rest_framework_jwt.views import obtain_jwt_token
+
 from portfolio.serializers import ProfileSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -15,6 +18,7 @@ def login(request):
 
 
 class CreateView(APIView):
+    permission_classes = (AllowAny,)
 
     def post(self, request):
         serializer = ProfileSerializer(data=request.data)
@@ -23,3 +27,4 @@ class CreateView(APIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.data, status=status.HTTP_409_CONFLICT)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
