@@ -1,8 +1,9 @@
-from django.test import TestCase
-from django.urls import resolve
-from portfolio.views import home_page
-from portfolio.models import Profile
 import json
+
+from django.test import TestCase
+
+from portfolio.models import Profile
+
 
 class ApiTest(TestCase):
 
