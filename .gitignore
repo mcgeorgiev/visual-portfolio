@@ -287,3 +287,6 @@ venv.bak/
 
 ### Python Patch ###
 .venv/
+.idea/
+.api.iml
+api.iml
