@@ -1,7 +1,11 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+
+from portfolio.repositories import UserRepositoryImpl, ProfileRepositoryImpl
 from .models import Profile
 
+user_repository = UserRepositoryImpl()
+user_profile_repository = ProfileRepositoryImpl()
 
 class UserService(serializers.ModelSerializer):
     class Meta:
@@ -9,13 +13,10 @@ class UserService(serializers.ModelSerializer):
         fields = ('email', 'password')
 
     def create(self, validated_data):
-        if User().__class__.objects.filter(email=validated_data["email"]).exists():
+        if user_repository.user_exists(validated_data["email"]):
             return False
 
-        return User().__class__.objects.create_user(
-            username=validated_data["email"],
-            email=validated_data["email"],
-            password=validated_data["password"])
+        return user_repository.create(validated_data["email"], validated_data["password"])
 
 
 class ProfileService(serializers.ModelSerializer):
@@ -32,4 +33,4 @@ class ProfileService(serializers.ModelSerializer):
         if not user:
             return False
 
-        return Profile().__class__.objects.create(full_name=validated_data["full_name"], user=user)
+        return user_profile_repository.create(validated_data["full_name"], user)

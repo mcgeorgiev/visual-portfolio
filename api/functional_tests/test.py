@@ -19,6 +19,7 @@ class CreateAccountTest(unittest.TestCase):
         self.browser.quit()
 
     def test_can_create_a_new_account(self):
+        self.browser.get(self.URL)
 
         full_name_input = self.browser.find_element_by_name('fullname')
         self.assertEqual(
