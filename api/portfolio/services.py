@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import Profile
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserService(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'password')
@@ -18,8 +18,8 @@ class UserSerializer(serializers.ModelSerializer):
             password=validated_data["password"])
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer(allow_null=False, required=True, write_only=True)
+class ProfileService(serializers.ModelSerializer):
+    user = UserService(allow_null=False, required=True, write_only=True)
     full_name = serializers.CharField()
 
     class Meta:
@@ -28,7 +28,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
-        user = UserSerializer.create(UserSerializer(), user_data)
+        user = UserService.create(UserService(), user_data)
         if not user:
             return False
 

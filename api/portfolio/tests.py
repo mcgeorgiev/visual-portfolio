@@ -5,7 +5,7 @@ from django.test import TestCase
 from portfolio.models import Profile
 
 
-class ApiTest(TestCase):
+class UserTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -55,4 +55,7 @@ class ApiTest(TestCase):
         self.assertEqual(first_saved_user.full_name, 'Joe Bloggs')
         self.assertEqual(second_saved_user.full_name, 'Mike')
 
+
+class ImageTest(TestCase):
+    pass
 
