@@ -290,3 +290,4 @@ venv.bak/
 .idea/
 .api.iml
 api.iml
+ft_db.sqlite3
