@@ -3,6 +3,8 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import Landing from './Landing'
 import Dashboard from './Dashboard'
 import {PrivateRoute, Auth} from "../helpers/Auth";
+import Login from "./Login";
+import AppContainer from "../container";
 
 
 const App = () => (
@@ -13,6 +15,7 @@ const App = () => (
     <main className='mainWrapper'>
       <Switch>
         <Route exact path='/' component={Landing}/>
+        <Route exact path='/login' component={AppContainer}/>
         <PrivateRoute path='/dashboard' component={Dashboard}/>
         <Route component={Landing} />
       </Switch>

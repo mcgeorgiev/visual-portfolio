@@ -4,11 +4,15 @@ import ReactDOM from 'react-dom';
 import App from './js/components/App';
 import { BrowserRouter } from 'react-router-dom';
 import './css/styles/Landing.scss';
+import { Provider } from "react-redux";
+import {store} from "./js/redux";
 
 ReactDOM.render(
-  <BrowserRouter >
-    <App />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter >
+      <App />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('app')
 );
 

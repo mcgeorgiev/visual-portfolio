@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 class Login extends Component {
@@ -23,22 +22,23 @@ class Login extends Component {
     this.setState({
       alert: (((this.state.email === '') || (this.state.password === '')) ? 'Please enter a password and email address.' : '')
     });
-
-    // axios.post('https://google.com', {
-    //   email: this.state.email,
-    //   password: this.state.password
-    // })
-    // .then(response => {
-    //   console.log(response);
-    // })
-    // .catch(error => {
-    //   console.log(error);
-    // });
   }
 
   render() {
+    console.log(this.props.geod);
     return (
       <div>
+        <h1>{this.props.geod.title || 'Hello World!'}</h1>
+
+        {this.props.geod.title ?
+          <button onClick={this.props.closeGeod}>
+            Exit Geod
+          </button> :
+          <button onClick={() => this.props.activateGeod({ title: 'I am a geo dude!' })}>
+            Click Me!
+          </button>
+        }
+
         <Link to='/dashboard'>Dash</Link>
         <h2>Login</h2>
         <div className="alert">
