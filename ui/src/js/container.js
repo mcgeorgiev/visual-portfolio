@@ -1,10 +1,8 @@
-import {
-  activateGeod,
-  closeGeod,
-} from './redux';
+
 
 import { connect } from 'react-redux';
 import Login from "./components/Login";
+import {activateGeod, closeGeod, loginEmailChanged} from "./actions/actions";
 
 const mapStateToProps = (state, ownProps) => ({
   geod: state.geod,
@@ -13,11 +11,12 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = {
   activateGeod,
   closeGeod,
+  loginEmailChanged
 };
 
-const AppContainer = connect(
+const LoginContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Login);
 
-export default AppContainer;
+export default LoginContainer;

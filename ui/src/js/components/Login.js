@@ -18,6 +18,11 @@ class Login extends Component {
     })
   }
 
+  handleChange = (event) => {
+    console.log(event.target.value);
+    this.props.loginEmailChanged(event.target.value);
+  }
+
   submitLoginCredentials() {
     this.setState({
       alert: (((this.state.email === '') || (this.state.password === '')) ? 'Please enter a password and email address.' : '')
@@ -25,7 +30,6 @@ class Login extends Component {
   }
 
   render() {
-    console.log(this.props.geod);
     return (
       <div>
         <h1>{this.props.geod.title || 'Hello World!'}</h1>
@@ -45,7 +49,7 @@ class Login extends Component {
           {this.state.alert}
         </div>
         <form className='login'>
-          <input type="text" name="email" onChange={this.handleInputChange}/>
+          <input type="text" name="email" onChange={this.handleChange}/>
           <input type="password" name="password" onChange={this.handleInputChange}/>
           <button type="button" color="primary" onClick={this.submitLoginCredentials}>primary</button>
         </form>
