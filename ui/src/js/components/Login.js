@@ -20,7 +20,7 @@ class Login extends Component {
 
   handleChange = (event) => {
     console.log(event.target.value);
-    this.props.loginEmailChanged(event.target.value);
+    this.props.loginEmailChanged({email: event.target.value});
   }
 
   submitLoginCredentials() {
