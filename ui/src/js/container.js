@@ -7,7 +7,7 @@ import {activateGeod, closeGeod, loginEmailChanged, loginPasswordChanged} from "
 const mapStateToProps = (state, ownProps) => ({
   geod: state.geod,
   email: state.email,
-  password: state.password
+  password: state.password,
 });
 
 const mapDispatchToProps = {
