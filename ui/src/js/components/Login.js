@@ -12,15 +12,10 @@ class Login extends Component {
     this.submitLoginCredentials = this.submitLoginCredentials.bind(this);
   }
 
-  handleInputChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-
   handleChange = (input) => (event) => {
+    console.log(this.props);
     input.eventHandler(event.target.value)
-  }
+  };
 
   submitLoginCredentials() {
     this.setState({
@@ -29,19 +24,8 @@ class Login extends Component {
   }
 
   render() {
-    console.log(this.props.geod);
     return (
       <div>
-        <h1>{this.props.geod.title || 'Hello World!'}</h1>
-
-        {this.props.geod.title ?
-          <button onClick={this.props.closeGeod}>
-            Exit Geod
-          </button> :
-          <button onClick={() => this.props.activateGeod({ title: 'I am a geo dude!' })}>
-            Click Me!
-          </button>
-        }
 
         <Link to='/dashboard'>Dash</Link>
         <h2>Login</h2>
