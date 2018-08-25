@@ -13,7 +13,6 @@ class Login extends Component {
   }
 
   handleChange = (input) => (event) => {
-    console.log(this.props);
     input.eventHandler(event.target.value)
   };
 
@@ -26,7 +25,6 @@ class Login extends Component {
   render() {
     return (
       <div>
-
         <Link to='/dashboard'>Dash</Link>
         <h2>Login</h2>
         <div className="alert">

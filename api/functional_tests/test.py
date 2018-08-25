@@ -45,6 +45,8 @@ class CreateAccountTest(unittest.TestCase):
         self.assertNotIn('dashboard', self.browser.current_url)
 
 
+    def test_can_login_with_existing_account(self):
+        
 
 
 
