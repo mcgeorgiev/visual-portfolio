@@ -5,11 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.config.js --mode development",
-    "test": "jest",
-    "test:unit": "mocha --require babel-core/register --require ./test/helpers.js --require ./test/dom.js --require ignore-styles \"./src/test/*.spec.js*\"",
-    "test:unit:watch": "npm run test:unit -- --watch",
-    "test:snapshot": "jest --config ./test/jest.config.json",
-    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -29,7 +25,6 @@
     "ignore-styles": "^5.0.1",
     "jest": "^22.4.4",
     "jsdom": "^11.6.2",
-    "mocha": "^5.0.4",
     "node-sass": "^4.9.2",
     "react-hot-loader": "^4.0.0",
     "react-test-renderer": "^16.2.0",
