@@ -1,12 +1,15 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects'
 import "regenerator-runtime/runtime";
+import {getEmail, selector, selectLoginEmail} from "./selectors";
 
 function fetchAUser(payload) {
   console.log("this is a saga")
 }
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions
 function* fetchUser(action) {
-    const user = yield call(fetchAUser, undefined);
+  const selected = yield select(selectLoginEmail);
+  console.log(selected)
+  const user = yield call(fetchAUser, selected);
     // yield put({type: "USER_FETCH_SUCCEEDED", user: user});
     // yield put({type: "USER_FETCH_FAILED", message: e.message});
 }

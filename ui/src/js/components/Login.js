@@ -25,7 +25,6 @@ class Login extends Component {
   render() {
     return (
       <div>
-        <Link to='/dashboard'>Dash</Link>
         <h2>Login</h2>
         <div className="alert">
           {this.state.alert}
