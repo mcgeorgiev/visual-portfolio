@@ -1,6 +1,6 @@
 import {combineReducers} from "redux";
 
-export const login = (state = {}, action) => {
+export const updateLogin = (state = {}, action) => {
   switch (action.type) {
     case 'LOGIN_EMAIL_CHANGED':
       return Object.assign({}, state, {
@@ -10,11 +10,13 @@ export const login = (state = {}, action) => {
       return Object.assign({}, state, {
         password: action.password,
       });
+    case 'LOGIN_DETAILS_SUBMITTED':
+      return state;
     default:
       return state;
   }
 };
 
 export const reducers = combineReducers({
-  login,
+  updateLogin,
 });

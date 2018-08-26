@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import {onLoginDetailsSubmitted} from "../actions/actions";
 
 class Login extends Component {
   constructor() {
@@ -32,7 +33,7 @@ class Login extends Component {
         <form className='login'>
           <input type="text" name="email" onChange={this.handleChange({eventHandler: this.props.loginEmailChanged})}/>
           <input type="password" name="password" onChange={this.handleChange({eventHandler: this.props.loginPasswordChanged})}/>
-          <button type="button" color="primary" onClick={this.submitLoginCredentials}>primary</button>
+          <button type="button" color="primary" onClick={this.props.onLoginDetailsSubmitted}>primary</button>
         </form>
       </div>
     );

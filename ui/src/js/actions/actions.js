@@ -7,3 +7,7 @@ export const loginPasswordChanged = password => ({
   type: 'LOGIN_PASSWORD_CHANGED',
   password,
 });
+
+export const onLoginDetailsSubmitted = () => ({
+  type: 'LOGIN_DETAILS_SUBMITTED'
+});
