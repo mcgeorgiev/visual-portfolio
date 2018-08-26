@@ -25,9 +25,10 @@ export function* loginUser() {
   const loginRequest = yield createLoginRequest(loginDetails)
 
   try {
-    const response = yield call(fetch, "http://localhost:5000/auth", loginRequest)
+    const response = yield call(fetch, "http://localhost:8000/api-token-auth/", loginRequest)
 
     if (response.ok) {
+       // const token = yield response.json()
       yield put(loginSuccessful())
       yield put(goToDashboard())
     } else {

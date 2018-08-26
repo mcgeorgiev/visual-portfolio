@@ -59,7 +59,7 @@ describe('login sagas', () => {
       iterator.next(LOGIN_DETAILS)
 
       expect(iterator.next(loginRequest).value)
-        .to.deep.equal(call(fetch, 'http://localhost:5000/auth', loginRequest))
+        .to.deep.equal(call(fetch, 'http://localhost:8000/api-token-auth/', loginRequest))
     })
 
     it('dispatches login succeeded action when response is ok', () => {
