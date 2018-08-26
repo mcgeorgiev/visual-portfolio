@@ -1,36 +1,48 @@
-import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects'
+import { call, put, takeLatest, select } from 'redux-saga/effects'
+import fetch from 'node-fetch'
 import "regenerator-runtime/runtime";
-import {getEmail, selector, selectLoginEmail} from "./selectors";
+import {getEmail, selector, selectLoginDetails} from "./selectors";
+import {loginFailure, loginSuccessful} from "./actions/actions";
+import { push } from 'react-router-redux'
 
-function fetchAUser(payload) {
-  console.log("this is a saga")
+
+const goToDashboard = () => push('/dashboard');
+
+const createLoginRequest = (loginDetails) => {
+  return {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(loginDetails)
+  }
 }
-// worker Saga: will be fired on USER_FETCH_REQUESTED actions
-function* fetchUser(action) {
-  const selected = yield select(selectLoginEmail);
-  console.log(selected)
-  const user = yield call(fetchAUser, selected);
+
+export function* loginUser() {
+
+  const loginDetails = yield select(selectLoginDetails);
+
+  const loginRequest = yield createLoginRequest(loginDetails)
+
+  try {
+    const response = yield call(fetch, "http://localhost:5000/auth", loginRequest)
+
+    if (response.ok) {
+      yield put(loginSuccessful())
+      yield put(goToDashboard())
+    } else {
+      yield put(loginFailure())
+    }
+  } catch (error) {
+    yield put(loginFailure())
+  }
+
+  // const user = yield call(fetchAUser, selected);
     // yield put({type: "USER_FETCH_SUCCEEDED", user: user});
     // yield put({type: "USER_FETCH_FAILED", message: e.message});
 }
 
-/*
-  Starts fetchUser on each dispatched `USER_FETCH_REQUESTED` action.
-  Allows concurrent fetches of user.
-*/
-function* mySaga() {
-  yield takeEvery("LOGIN_EMAIL_CHANGED", fetchUser);
+ export function* watchForLoginSubmitted() {
+  yield takeLatest("LOGIN_DETAILS_SUBMITTED", loginUser);
 }
 
-/*
-  Alternatively you may use takeLatest.
-
-  Does not allow concurrent fetches of user. If "USER_FETCH_REQUESTED" gets
-  dispatched while a fetch is already pending, that pending fetch is cancelled
-  and only the latest one will be run.
-*/
-function* mySaga() {
-  yield takeLatest("LOGIN_EMAIL_CHANGED", fetchUser);
-}
-
-export default mySaga

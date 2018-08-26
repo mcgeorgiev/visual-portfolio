@@ -12,11 +12,15 @@ export const updateLogin = (state = {}, action) => {
       });
     case 'LOGIN_DETAILS_SUBMITTED':
       return state;
+    case 'LOGIN_SUCCESSFUL':
+      return state;
+    case 'LOGIN_FAILURE':
+      return state;
     default:
       return state;
   }
 };
 
 export const reducers = combineReducers({
-  updateLogin,
+  login: updateLogin,
 });

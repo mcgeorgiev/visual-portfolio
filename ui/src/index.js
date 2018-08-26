@@ -4,10 +4,10 @@ import App from './js/components/App';
 import { BrowserRouter } from 'react-router-dom';
 import './css/styles/Landing.scss';
 import { Provider } from "react-redux";
-import mySaga from "./js/saga";
+import {watchForLoginSubmitted} from "./js/saga";
 import {sagaMiddleware, store} from "./js/store";
 
-sagaMiddleware.run(mySaga);
+sagaMiddleware.run(watchForLoginSubmitted);
 
 ReactDOM.render(
   <Provider store={store}>

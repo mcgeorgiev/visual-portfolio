@@ -6,3 +6,8 @@ export const selectLoginEmail = createSelector(
   selectLogin,
   login => login.email
 );
+
+export const selectLoginDetails = createSelector(
+  selectLogin,
+  login => login
+)

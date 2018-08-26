@@ -11,3 +11,11 @@ export const loginPasswordChanged = password => ({
 export const onLoginDetailsSubmitted = () => ({
   type: 'LOGIN_DETAILS_SUBMITTED'
 });
+
+export const loginSuccessful = () => ({
+  type: 'LOGIN_SUCCESSFUL'
+});
+
+export const loginFailure = () => ({
+  type: 'LOGIN_FAILURE'
+});
