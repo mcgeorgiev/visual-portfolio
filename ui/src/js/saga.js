@@ -18,18 +18,19 @@ const createLoginRequest = (loginDetails) => {
   }
 }
 
+const parseBody = response => { return response.json() }
+
 export function* loginUser() {
 
   const loginDetails = yield select(selectLoginDetails);
-
   const loginRequest = yield createLoginRequest(loginDetails)
 
   try {
     const response = yield call(fetch, "http://localhost:8000/api-token-auth/", loginRequest)
 
     if (response.ok) {
-       // const token = yield response.json()
-      yield put(loginSuccessful())
+      const jwt = yield parseBody(response)
+      yield put(loginSuccessful(jwt.token))
       yield put(goToDashboard())
     } else {
       yield put(loginFailure())

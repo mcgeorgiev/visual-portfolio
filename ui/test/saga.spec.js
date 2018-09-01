@@ -6,19 +6,23 @@ import {selectLoginDetails, selectLoginEmail} from "../src/js/selectors";
 import {loginSuccessful, loginFailure} from "../src/js/actions/actions";
 import { push } from 'react-router-redux'
 
+const TOKEN = {token: "a jwt"}
+
 export const buildApiResponse = ({
    ok = true,
-   body = '{}',
+   body = {},
    status = 200,
    entity = {},
-   error = null
+   error = null,
+   json = () => {return TOKEN}
   } = {}) => {
   return {
     ok,
     body,
     status,
     entity,
-    error
+    error,
+    json
   }
 }
 
@@ -62,6 +66,20 @@ describe('login sagas', () => {
         .to.deep.equal(call(fetch, 'http://localhost:8000/api-token-auth/', loginRequest))
     })
 
+    it('extract jwt when response is ok', () => {
+      const iterator = loginUser()
+      iterator.next()
+      iterator.next(LOGIN_DETAILS)
+      iterator.next(loginRequest)
+
+      const response = buildApiResponse({
+        ok: true,
+        status: 200,
+      })
+      expect(iterator.next(response).value).to.equal(TOKEN)
+
+    })
+
     it('dispatches login succeeded action when response is ok', () => {
       const iterator = loginUser()
       iterator.next()
@@ -72,9 +90,10 @@ describe('login sagas', () => {
         ok: true,
         status: 200
       })
+      iterator.next(response)
 
-      expect(iterator.next(response).value)
-        .to.deep.equal(put(loginSuccessful()))
+      expect(iterator.next(TOKEN).value)
+        .to.deep.equal(put(loginSuccessful(TOKEN.token)))
     })
 
     it('dispatches push to dashboard when response from api is ok', () => {
@@ -88,7 +107,7 @@ describe('login sagas', () => {
         status: 200
       })
       iterator.next(response)
-
+      iterator.next(TOKEN)
       expect(iterator.next().value)
         .to.deep.equal(put(push('/dashboard')))
     })

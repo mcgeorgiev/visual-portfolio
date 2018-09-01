@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router-dom";
-import {Auth} from "../helpers/Auth";
 
 const axios = require('axios');
 
@@ -78,9 +77,9 @@ class Signup extends Component {
     full_name: this.state.fullname,
     })
     .then(() => {
-      Auth.obtain(this.state.email, this.state.password, () => {
-        this.props.history.push("/dashboard");
-      })
+      // Auth.obtain(this.state.email, this.state.password, () => {
+      //   this.props.history.push("/dashboard");
+      // })
     })
     .catch((error) => {
       let alert = '';

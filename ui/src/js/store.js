@@ -4,12 +4,23 @@ import createHistory from 'history/createBrowserHistory'
 
 import createSagaMiddleware from 'redux-saga'
 import {routerMiddleware} from "react-router-redux";
+import {persistReducer, persistStore} from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
 export const history = createHistory()
 export const sagaMiddleware = createSagaMiddleware()
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, reducers)
+
 export const store = createStore(
-  reducers,
+  persistedReducer,
   composeEnhancers(applyMiddleware(sagaMiddleware, routerMiddleware(history)))
 )
+
+export const persistor = persistStore(store)

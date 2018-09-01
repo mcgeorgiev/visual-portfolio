@@ -13,7 +13,9 @@ export const updateLogin = (state = {}, action) => {
     case 'LOGIN_DETAILS_SUBMITTED':
       return state;
     case 'LOGIN_SUCCESSFUL':
-      return state;
+      return Object.assign({}, state, {
+        token: action.token,
+      });
     case 'LOGIN_FAILURE':
       return state;
     default:

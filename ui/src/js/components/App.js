@@ -2,8 +2,8 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Landing from './Landing'
 import Dashboard from './Dashboard'
-import {PrivateRoute} from "../helpers/Auth";
-import LoginContainer from "../container";
+ import LoginContainer from "../container";
+import {requireAuthentication} from "./Auth";
 
 const App = () => (
   <div>
@@ -14,7 +14,7 @@ const App = () => (
       <Switch>
         <Route exact path='/' component={Landing}/>
         <Route exact path='/login' component={LoginContainer}/>
-        <PrivateRoute path='/dashboard' component={Dashboard}/>
+        <Route path='/dashboard' component={requireAuthentication(Dashboard)}/>
         <Route component={Landing} />
       </Switch>
     </main>

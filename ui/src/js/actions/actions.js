@@ -12,8 +12,9 @@ export const onLoginDetailsSubmitted = () => ({
   type: 'LOGIN_DETAILS_SUBMITTED'
 });
 
-export const loginSuccessful = () => ({
-  type: 'LOGIN_SUCCESSFUL'
+export const loginSuccessful = token => ({
+  type: 'LOGIN_SUCCESSFUL',
+  token
 });
 
 export const loginFailure = () => ({

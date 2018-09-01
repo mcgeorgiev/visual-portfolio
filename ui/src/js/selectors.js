@@ -7,14 +7,14 @@ export const selectLoginEmail = createSelector(
   login => login.email
 );
 
-// export const selectLoginDetails = createSelector(
-//   selectLogin,
-//   login => login
-// )
-
 export const selectLoginDetails = createSelector(
   selectLogin,
   login => {
     return {username: login.email, password: login.password}
   }
 )
+
+export const selectToken = createSelector(
+  selectLogin,
+  login => login.token
+);
