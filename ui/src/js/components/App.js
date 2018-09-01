@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import Landing from './Landing'
 import Dashboard from './Dashboard'
  import LoginContainer from "../container";
-import {requireAuthentication} from "./Auth";
+import {AuthContainer, requireAuthentication} from "./Auth";
 
 const App = () => (
   <div>
@@ -14,7 +14,10 @@ const App = () => (
       <Switch>
         <Route exact path='/' component={Landing}/>
         <Route exact path='/login' component={LoginContainer}/>
-        <Route path='/dashboard' component={requireAuthentication(Dashboard)}/>
+        <Route path='/dashboard' render={() => {
+            return <AuthContainer component={<Dashboard/>}/>
+          }}
+        />
         <Route component={Landing} />
       </Switch>
     </main>

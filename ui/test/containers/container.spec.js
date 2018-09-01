@@ -1,7 +1,7 @@
 import { spy } from 'sinon';
 import {expect} from 'chai'
-import {mapDispatchToProps} from "../src/js/container";
-import {loginEmailChanged, loginPasswordChanged, onLoginDetailsSubmitted} from "../src/js/actions/actions";
+import {mapDispatchToProps} from "../../src/js/container";
+import {loginEmailChanged, loginPasswordChanged, onLoginDetailsSubmitted} from "../../src/js/actions/actions";
 
 describe('<Login /> ', () => {
   it('triggers email changed action when email is changed', () => {

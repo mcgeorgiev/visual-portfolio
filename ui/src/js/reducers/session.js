@@ -6,6 +6,8 @@ export const updateSession = (state = {}, action) => {
       return Object.assign({}, state, {
         token: action.token,
       });
+    case 'VIEW_ROUTE':
+      return state;
     default:
       return state;
   }

@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import deepFreeze from 'deep-freeze'
-import {loginSuccessful, redirectToLogin} from "../../src/js/actions/session";
+import {loginSuccessful, redirectToLogin, viewRoute} from "../../src/js/actions/session";
 import {updateSession} from "../../src/js/reducers/session";
 
 const SESSION1 = {
@@ -23,6 +23,17 @@ describe('session reducer', () => {
   it('state not changed when redirect action is fired', () => {
     const currentState = deepFreeze(SESSION1)
     const action = deepFreeze(redirectToLogin())
+
+    const updatedState = updateSession(currentState, action)
+
+    expect(updatedState).to.deep.equal({
+      ...SESSION1
+    })
+  })
+
+  it('state not changed when view route action is fired', () => {
+    const currentState = deepFreeze(SESSION1)
+    const action = deepFreeze(viewRoute())
 
     const updatedState = updateSession(currentState, action)
 
