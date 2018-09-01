@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import Landing from './Landing'
 import Dashboard from './Dashboard'
  import LoginContainer from "../container";
-import {AuthContainer, requireAuthentication} from "./Auth";
+import {AuthContainer} from "./Auth";
 
 const App = () => (
   <div>

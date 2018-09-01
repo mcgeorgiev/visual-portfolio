@@ -1,13 +1,14 @@
 import {expect} from 'chai'
 import {call, select, put} from 'redux-saga/effects'
 import fetch from 'node-fetch'
-import {loginUser, protectedRedirect} from "../src/js/sagas/saga";
-import {selectLoginDetails} from "../src/js/selectors";
+import {loginUser, protectedRedirect, validateSession} from "../src/js/sagas/saga";
+import {selectLoginDetails, selectToken} from "../src/js/selectors";
 import { push } from 'react-router-redux'
 import {loginFailure} from "../src/js/actions/actions";
 import {loginSuccessful, redirectToLogin} from "../src/js/actions/session";
+import * as jwt from "jsonwebtoken";
 
-const TOKEN = {token: "a jwt"}
+const TOKEN = {token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzb21lIjoicGF5bG9hZCJ9.Joh1R2dYzkRvDkqv3sygm5YyK8Gi4ShZqbhK2gxcs2U"}
 
 export const buildApiResponse = ({
    ok = true,
@@ -32,6 +33,36 @@ describe('login sagas', () => {
   describe('protectedRedirect ', () => {
     it('redirects to the Login page', () => {
       const iterator = protectedRedirect()
+      expect(iterator.next().value)
+        .to.deep.equal(put(push('/login')))
+    })
+  })
+
+  describe('validateSession ', () => {
+    it('selects the token from state', () => {
+      const iterator = validateSession()
+      expect(iterator.next().value)
+        .to.deep.equal(select(selectToken))
+    })
+
+    it('validates a valid JWT', () => {
+
+      process.env["SECRET_KEY"] = "secret"
+
+      const iterator = validateSession()
+      iterator.next()
+
+      expect(iterator.next(TOKEN).value)
+        .to.deep.equal(put(jwt.verify(TOKEN.token, 'secret')))
+    })
+
+    it('redirects to login if JWT is invalid', () => {
+
+      process.env["SECRET_KEY"] = "secret"
+
+      const iterator = validateSession()
+      iterator.next()
+
       expect(iterator.next().value)
         .to.deep.equal(put(push('/login')))
     })

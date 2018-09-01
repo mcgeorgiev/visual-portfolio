@@ -1,8 +1,9 @@
-import {watchForLoginSubmitted, watchForProtectedRedirect} from "./saga";
+import {watchForLoginSubmitted, watchForProtectedRedirect, watchForViewRoute} from "./saga";
 
 export default function* () {
   yield [
     watchForProtectedRedirect(),
-    watchForLoginSubmitted()
+    watchForLoginSubmitted(),
+    watchForViewRoute()
   ]
 }

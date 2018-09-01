@@ -51,16 +51,6 @@ class AuthenticatedComponent extends Component {
     this.props.viewRoute();
   }
 
-  checkAuth() {
-    this.props.viewRoute()
-    // try {
-    //   console.log(jwt.verify(this.props.token, 'f_w^fy7oax5&iln&l@a4z@*m3ts584%pbx*fnxd7108$rj84t3'))
-    //   jwt.verify(this.props.token, 'f_w^fy7oax5&iln&l@a4z@*m3ts584%pbx*fnxd7108$rj84t3')
-    // } catch (error) {
-    //   store.dispatch(redirectToLogin())
-    // }
-  }
-
   render() {
     return (
       <div>

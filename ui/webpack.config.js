@@ -41,6 +41,12 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+        'process.env': {
+          'SECRET_KEY': JSON.stringify("f_w^fy7oax5&iln&l@a4z@*m3ts584%pbx*fnxd7108$rj84t3")
+        }
+      }
+    )
   ],
   devServer: {
     contentBase: './dist',

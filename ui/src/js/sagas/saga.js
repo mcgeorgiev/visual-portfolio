@@ -1,10 +1,11 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects'
 import fetch from 'node-fetch'
 import "regenerator-runtime/runtime";
-import {selectLoginDetails} from "../selectors";
+import {selectLoginDetails, selectToken} from "../selectors";
 import { push } from 'react-router-redux'
 import {loginFailure} from "../actions/actions";
 import {loginSuccessful} from "../actions/session";
+import * as jwt from "jsonwebtoken";
 
 
 const goToDashboard = () => push('/dashboard');
@@ -59,4 +60,17 @@ export function* watchForProtectedRedirect() {
   yield takeLatest("LOGIN_REDIRECT", protectedRedirect);
 }
 
+const verifyToken = token => jwt.verify(token, process.env.SECRET_KEY)
 
+export function* validateSession() {
+  const session = yield select(selectToken);
+  try {
+    yield put(verifyToken(session.token))
+  } catch (err) {
+    yield put(goToLogin())
+  }
+}
+
+export function* watchForViewRoute() {
+  yield takeLatest("VIEW_ROUTE", validateSession);
+}

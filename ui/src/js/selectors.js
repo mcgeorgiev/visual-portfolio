@@ -8,3 +8,13 @@ export const selectLoginDetails = createSelector(
     return {username: login.email, password: login.password}
   }
 )
+
+const selectSession = state => state.session;
+
+export const selectToken = createSelector(
+  selectSession,
+  session => {
+    return {token: session.token}
+  }
+)
+
