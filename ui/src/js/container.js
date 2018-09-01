@@ -6,6 +6,7 @@ const mapStateToProps = state => {
   return {
     email: state.login.email,
     password: state.login.password,
+    error: state.login.error
   }
 };
 

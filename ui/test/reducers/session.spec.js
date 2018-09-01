@@ -2,6 +2,7 @@ import {expect} from 'chai'
 import deepFreeze from 'deep-freeze'
 import {loginSuccessful, redirectToLogin, viewRoute} from "../../src/js/actions/session";
 import {updateSession} from "../../src/js/reducers/session";
+import {loginFailure} from "../../src/js/actions/actions";
 
 const SESSION1 = {
   token: "a token"

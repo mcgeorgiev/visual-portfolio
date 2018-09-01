@@ -11,7 +11,9 @@ export const updateLogin = (state = {}, action) => {
     case 'LOGIN_DETAILS_SUBMITTED':
       return state;
     case 'LOGIN_FAILURE':
-      return state;
+      return Object.assign({}, state, {
+        error: "Incorrect email or password entered.",
+      });
     default:
       return state;
   }

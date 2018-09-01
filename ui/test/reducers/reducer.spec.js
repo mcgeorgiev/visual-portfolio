@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import deepFreeze from 'deep-freeze'
-import {loginEmailChanged, loginPasswordChanged} from "../../src/js/actions/actions";
+import {loginEmailChanged, loginFailure, loginPasswordChanged} from "../../src/js/actions/actions";
 import {updateLogin} from "../../src/js/reducers/login";
 
 const USER1 = {
@@ -43,6 +43,18 @@ describe('login reducer ', () => {
     expect(updatedState).to.deep.equal({
       ...USER1,
       password: USER2.password
+    })
+  })
+
+  it('only changes login error in login state when failure action is fired', () => {
+    const currentState = deepFreeze(USER1)
+    const action = deepFreeze(loginFailure())
+
+    const updatedState = updateLogin(currentState, action)
+
+    expect(updatedState).to.deep.equal({
+      ...USER1,
+      error: "Incorrect email or password entered."
     })
   })
 })

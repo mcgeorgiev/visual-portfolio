@@ -15,7 +15,7 @@ describe('<Login /> ', () => {
     const input = wrapper.find({name: 'email'})
     input.instance().value = 'email@example.com'
     //
-    input.simulate('blur')
+    input.simulate('change')
     expect(emailChangedHandler.calledWith('email@example.com')).to.equal(true)
   })
 
@@ -26,7 +26,7 @@ describe('<Login /> ', () => {
     const input = wrapper.find({name: 'password'})
     input.instance().value = 'Password123'
     //
-    input.simulate('blur')
+    input.simulate('change')
     expect(passwordChangedHandler.calledWith('Password123')).to.be.true
   })
 
@@ -40,5 +40,16 @@ describe('<Login /> ', () => {
     })
 
     expect(onLoginDetailsSubmitted.called).to.be.true
+  })
+
+  it('error alert area updates when there are errors', () => {
+    const wrapper = mount(<Login />)
+
+    const alert = wrapper.find('.alert')
+    expect(alert.html()).to.not.contain('Incorrect email or password entered.')
+
+    wrapper.setProps({error: "Incorrect email or password entered."})
+
+    expect(alert.html()).to.contain('Incorrect email or password entered.')
   })
 })

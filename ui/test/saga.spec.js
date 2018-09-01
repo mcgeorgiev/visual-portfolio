@@ -4,9 +4,9 @@ import fetch from 'node-fetch'
 import {loginUser, protectedRedirect, validateSession} from "../src/js/sagas/saga";
 import {selectLoginDetails, selectToken} from "../src/js/selectors";
 import { push } from 'react-router-redux'
-import {loginFailure} from "../src/js/actions/actions";
-import {loginSuccessful, redirectToLogin} from "../src/js/actions/session";
+import {loginSuccessful} from "../src/js/actions/session";
 import * as jwt from "jsonwebtoken";
+import {loginFailure} from "../src/js/actions/actions";
 
 const TOKEN = {token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzb21lIjoicGF5bG9hZCJ9.Joh1R2dYzkRvDkqv3sygm5YyK8Gi4ShZqbhK2gxcs2U"}
 
@@ -164,7 +164,7 @@ describe('login sagas', () => {
       })
 
       expect(iterator.next(response).value)
-        .to.deep.equal(put(loginFailure()))
+        .to.deep.equal(put(loginFailure(true)))
     })
   })
 })

@@ -3,9 +3,9 @@ import fetch from 'node-fetch'
 import "regenerator-runtime/runtime";
 import {selectLoginDetails, selectToken} from "../selectors";
 import { push } from 'react-router-redux'
-import {loginFailure} from "../actions/actions";
 import {loginSuccessful} from "../actions/session";
 import * as jwt from "jsonwebtoken";
+import {loginFailure} from "../actions/actions";
 
 
 const goToDashboard = () => push('/dashboard');
@@ -67,7 +67,7 @@ export function* validateSession() {
   try {
     yield put(verifyToken(session.token))
   } catch (err) {
-    yield put(goToLogin())
+    yield put(goToLogin(true))
   }
 }
 
