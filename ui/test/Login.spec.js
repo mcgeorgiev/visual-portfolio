@@ -15,7 +15,7 @@ describe('<Login /> ', () => {
     const input = wrapper.find({name: 'email'})
     input.instance().value = 'email@example.com'
     //
-    input.simulate('change')
+    input.simulate('blur')
     expect(emailChangedHandler.calledWith('email@example.com')).to.equal(true)
   })
 
@@ -26,7 +26,7 @@ describe('<Login /> ', () => {
     const input = wrapper.find({name: 'password'})
     input.instance().value = 'Password123'
     //
-    input.simulate('change')
+    input.simulate('blur')
     expect(passwordChangedHandler.calledWith('Password123')).to.be.true
   })
 

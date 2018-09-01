@@ -1,9 +1,10 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects'
 import fetch from 'node-fetch'
 import "regenerator-runtime/runtime";
-import {getEmail, selector, selectLoginDetails} from "./selectors";
-import {loginFailure, loginSuccessful} from "./actions/actions";
+import {selectLoginDetails} from "../selectors";
 import { push } from 'react-router-redux'
+import {loginFailure} from "../actions/actions";
+import {loginSuccessful} from "../actions/session";
 
 
 const goToDashboard = () => push('/dashboard');
@@ -44,7 +45,18 @@ export function* loginUser() {
     // yield put({type: "USER_FETCH_FAILED", message: e.message});
 }
 
- export function* watchForLoginSubmitted() {
+export function* watchForLoginSubmitted() {
   yield takeLatest("LOGIN_DETAILS_SUBMITTED", loginUser);
 }
+
+const goToLogin = () => push('/login')
+
+export function* protectedRedirect() {
+  yield put(goToLogin())
+}
+
+export function* watchForProtectedRedirect() {
+  yield takeLatest("LOGIN_REDIRECT", protectedRedirect);
+}
+
 

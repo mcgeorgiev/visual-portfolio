@@ -1,10 +1,11 @@
 import {expect} from 'chai'
 import {call, select, put} from 'redux-saga/effects'
 import fetch from 'node-fetch'
-import {loginUser} from "../src/js/saga";
-import {selectLoginDetails, selectLoginEmail} from "../src/js/selectors";
-import {loginSuccessful, loginFailure} from "../src/js/actions/actions";
+import {loginUser, protectedRedirect} from "../src/js/sagas/saga";
+import {selectLoginDetails} from "../src/js/selectors";
 import { push } from 'react-router-redux'
+import {loginFailure} from "../src/js/actions/actions";
+import {loginSuccessful, redirectToLogin} from "../src/js/actions/session";
 
 const TOKEN = {token: "a jwt"}
 
@@ -27,6 +28,14 @@ export const buildApiResponse = ({
 }
 
 describe('login sagas', () => {
+
+  describe('protectedRedirect ', () => {
+    it('redirects to the Login page', () => {
+      const iterator = protectedRedirect()
+      expect(iterator.next().value)
+        .to.deep.equal(put(push('/login')))
+    })
+  })
 
   describe('loginUser ', () => {
 

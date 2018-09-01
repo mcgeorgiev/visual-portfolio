@@ -1,10 +1,8 @@
-import {combineReducers} from "redux";
-
 export const updateLogin = (state = {}, action) => {
   switch (action.type) {
     case 'LOGIN_EMAIL_CHANGED':
       return Object.assign({}, state, {
-          email: action.email,
+        email: action.email,
       });
     case 'LOGIN_PASSWORD_CHANGED':
       return Object.assign({}, state, {
@@ -12,17 +10,9 @@ export const updateLogin = (state = {}, action) => {
       });
     case 'LOGIN_DETAILS_SUBMITTED':
       return state;
-    case 'LOGIN_SUCCESSFUL':
-      return Object.assign({}, state, {
-        token: action.token,
-      });
     case 'LOGIN_FAILURE':
       return state;
     default:
       return state;
   }
 };
-
-export const reducers = combineReducers({
-  login: updateLogin,
-});

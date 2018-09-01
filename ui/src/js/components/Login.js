@@ -31,8 +31,8 @@ class Login extends Component {
           {this.state.alert}
         </div>
         <form className='login'>
-          <input type="text" name="email" onChange={this.handleChange({eventHandler: this.props.loginEmailChanged})}/>
-          <input type="password" name="password" onChange={this.handleChange({eventHandler: this.props.loginPasswordChanged})}/>
+          <input type="text" name="email" onBlur={this.handleChange({eventHandler: this.props.loginEmailChanged})}/>
+          <input type="password" name="password" onBlur={this.handleChange({eventHandler: this.props.loginPasswordChanged})}/>
           <button type="button" color="primary" onClick={this.props.onLoginDetailsSubmitted}>primary</button>
         </form>
       </div>
