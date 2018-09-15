@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Login from './Login';
-import Signup from './Signup';
 
 class Landing extends Component {
   constructor() {
@@ -10,8 +8,7 @@ class Landing extends Component {
   render() {
     return(
       <div className='landing-block'>
-        {/*<Login />*/}
-        <Signup />
+        {this.props.component}
       </div>
     );
   }

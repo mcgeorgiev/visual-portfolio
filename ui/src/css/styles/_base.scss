@@ -14,4 +14,17 @@ body {
   background: linear-gradient(to bottom,  $themeColor-Light 0%, $themeColor-Light 65%, white 35%, white 100%);
 }
 
+.center {
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 

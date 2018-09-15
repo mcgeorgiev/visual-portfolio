@@ -1,5 +1,5 @@
-.signup input,
-.signup button
+.form input,
+.form button
 {
   width: 100%;
   box-sizing: border-box;
@@ -10,7 +10,7 @@
   font: inherit;
 }
 
-.signup .alert {
+.form .alert {
   min-height: 1em;
   line-height: 1;
   color: red;
@@ -23,7 +23,7 @@
   padding: 0 15% 0 15%;
 }
 
-.signup {
+.form {
   padding: 0 7% 7% 7%;
   position: relative;
 }
@@ -38,12 +38,12 @@
   margin-right: 1em;
 }
 
-.signup h2 {
+.form h2 {
   text-align: center;
   padding-top: 2em;
 }
 
-.signup input {
+.form input {
   border: 2px solid $themeColor-Light;
   border-radius: 4px;
   background-color: white;
