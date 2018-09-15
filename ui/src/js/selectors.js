@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 
-const selectLogin = state => state.login;
+const selectLogin = state => state.login
 
 export const selectLoginDetails = createSelector(
   selectLogin,
@@ -9,7 +9,7 @@ export const selectLoginDetails = createSelector(
   }
 )
 
-const selectSession = state => state.session;
+const selectSession = state => state.session
 
 export const selectToken = createSelector(
   selectSession,
@@ -18,3 +18,17 @@ export const selectToken = createSelector(
   }
 )
 
+const selectSignup = state => state.signup
+
+export const selectSignupDetails = createSelector(
+  selectSignup,
+  signup => {
+    return {
+      user: {
+        email: signup.email,
+        password: signup.password
+      },
+      full_name: signup.fullname,
+    }
+  }
+)

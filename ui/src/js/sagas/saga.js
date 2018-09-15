@@ -7,7 +7,6 @@ import {loginSuccessful} from "../actions/session";
 import * as jwt from "jsonwebtoken";
 import {loginFailure} from "../actions/actions";
 
-
 const goToDashboard = () => push('/dashboard');
 
 const createLoginRequest = (loginDetails) => {
@@ -40,10 +39,6 @@ export function* loginUser() {
   } catch (error) {
     yield put(loginFailure())
   }
-
-  // const user = yield call(fetchAUser, selected);
-    // yield put({type: "USER_FETCH_SUCCEEDED", user: user});
-    // yield put({type: "USER_FETCH_FAILED", message: e.message});
 }
 
 export function* watchForLoginSubmitted() {

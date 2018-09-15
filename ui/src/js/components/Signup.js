@@ -1,5 +1,10 @@
-import React, {Component} from 'react';
-import {Link, withRouter} from "react-router-dom";
+import React, {
+  Component
+} from 'react';
+import {
+  Link,
+  withRouter
+} from "react-router-dom";
 
 const axios = require('axios');
 
@@ -70,55 +75,94 @@ class Signup extends Component {
 
   createAccount = () => {
     axios.post('http://127.0.0.1:8000/api/create', {
-    user: {
-      email: this.state.email,
-      password: this.state.password
-    },
-    full_name: this.state.fullname,
+      user: {
+        email: this.state.email,
+        password: this.state.password
+      },
+      full_name: this.state.fullname,
     })
-    .then(() => {
-      // Auth.obtain(this.state.email, this.state.password, () => {
-      //   this.props.history.push("/dashboard");
-      // })
-    })
-    .catch((error) => {
-      let alert = '';
-      if (error.response) {
-        if (error.response.status === 409) {
+      .then(() => {
+        // Auth.obtain(this.state.email, this.state.password, () => {
+        //   this.props.history.push("/dashboard");
+        // })
+      })
+      .catch((error) => {
+        let alert = '';
+        if (error.response) {
+          if (error.response.status === 409) {
             alert = 'This email address is already in use.';
-        } else if (error.response.status === 400) {
+          } else if (error.response.status === 400) {
             alert = 'Invalid data sent.';
+          }
+          this.setState({
+            alert: alert
+          });
         }
-        this.setState({
-          alert: alert
-        });
-      }
-    });
+      });
   };
 
-render() {
+  render() {
     return (
       <div className='form landing-form'>
-        <h2>Sign Up</h2>
-        <div className="alert">
-          {this.state.alert}
-        </div>
-        <form className='form'>
-          <input type="text" name="fullname" onChange={this.handleInputChange} placeholder='Full Name'/>
-          <input type="text" name="email" onChange={this.handleInputChange} placeholder='Email'/>
-          <img src={this.state.eyeIcon} onClick={this.toggleShowPassword} className='show-password-icon'/>
-          <input type={this.state.showPassword} name="password" onChange={this.handleInputChange} placeholder='Password' />
-          <button type="button" onClick={this.submitCredentials} className='signup-button'>SIGN ME UP</button>
-          {/*<div className='terms-conditions'>*/}
-            {/*By signing up, you agree to our <b>Terms</b>. Learn how we collect, use and share your data in out <b>Data Policy</b> and how we use cookies and similar technology in out <b>Cookies Policy</b>.*/}
-          {/*</div>*/}
-          <p className="center">Not the first time here? <Link to="/login"><b>Log in</b></Link></p>
+        <
+          h2> Sign Up < /h2>
+          <
+            div className="alert"> {
+            this.state.alert
+          }
+            <
+            /div>
+            <
+              form className='form'>
+              <
+                input type="text"
+                      name="fullname"
+                      onChange={
+                        this.handleInputChange
+                      }
+                      placeholder='Full Name' />
+              <input type="text"
+                      name="email"
+                      onChange={
+                        this.handleInputChange
+                      }
+                      placeholder='Email' />
+              <
+                img src={
+                this.state.eyeIcon
+              }
+                    onClick={
+                      this.toggleShowPassword
+                    }
+                    className='show-password-icon' / >
+              <
+                input type={
+                this.state.showPassword
+              }
+                      name="password"
+                      onChange={
+                        this.handleInputChange
+                      }
+                      placeholder='Password' / >
+              <
+                button type="button"
+                       onClick={
+                         this.submitCredentials
+                       }
+                       className='signup-button'> SIGN ME
+                UP < /button> {/*<div className='terms-conditions'>*/} {/*By signing up, you agree to our <b>Terms</b>. Learn how we collect, use and share your data in out <b>Data Policy</b> and how we use cookies and similar technology in out <b>Cookies Policy</b>.*/} {/*</div>*/}
+                <
+                  p className="center"> Not the first time here ? < Link to="/login"> < b> Log in < /b></Link>
+                  <
+                  /p>
 
-        </form>
+                  <
+                  /form>
 
-      </div>
-    );
-  }
-}
+                  <
+                  /div>
+                  );
+                  }
+                  }
 
-export default withRouter(Signup);
+                  export default withRouter(Signup);

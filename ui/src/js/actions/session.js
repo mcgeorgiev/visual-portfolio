@@ -7,8 +7,6 @@ export const loginSuccessful = token => ({
   token,
 });
 
-
-
 export  const viewRoute = () => ({
   type: 'VIEW_ROUTE'
 });
