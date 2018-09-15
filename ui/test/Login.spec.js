@@ -5,6 +5,7 @@ import Adapter from 'enzyme-adapter-react-16'
 import { mount, shallow, configure } from 'enzyme'
 import { expect } from 'chai'
 import { MemoryRouter } from 'react-router-dom'
+import deepFreeze from 'deep-freeze'
 
 configure({ adapter: new Adapter() })
 
@@ -62,11 +63,22 @@ describe('<Login /> ', () => {
     expect(alert.html()).to.contain('Incorrect email or password entered.')
   })
 
-  // it('renders eye image by default ', () => {
-  //   const wrapper = shallow(<Login />)
-  //   // wrapper.setState({eyeIcon: eye});
-  //   console.log(wrapper.state.eye)
-  //   // expect(wrapper.find('#verified-success')).to.have.lengthOf(1);
+  it('toggles eye image by when clicking image ', () => {
+    const wrapper = shallow(<Login />)
+    const img = wrapper.find('.show-password-icon')
+    img.simulate('click')
+    const img2 = wrapper.find('.show-password-icon')
+    expect(img).to.not.equal(img2)
+  })
 
-  // });
+  it('toggles password visible when clicking image ', () => {
+    const wrapper = shallow(<Login />)
+    const img = wrapper.find('.show-password-icon')
+
+    const passwordType = wrapper.find({ name: 'password' })
+    expect(passwordType.html()).to.contain('type="password"')
+
+    img.simulate('click')
+    expect(wrapper.find({ name: 'password' }).html()).to.contain('type="text"')
+  })
 })
