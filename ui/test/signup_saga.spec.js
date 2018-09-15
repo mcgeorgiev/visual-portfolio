@@ -1,5 +1,5 @@
 import {expectSaga} from "redux-saga-test-plan";
-import {signupSubmitted} from "../src/js/actions/signup";
+import {signupErrorMessage, signupSubmitted} from "../src/js/actions/signup";
 import {watchForSignupSubmitted} from "../src/js/sagas/signup";
 import {selectSignupDetails} from "../src/js/selectors";
 import {select} from "redux-saga/effects";
@@ -7,6 +7,8 @@ import {push} from 'react-router-redux'
 import {expect} from "chai";
 import * as matchers from 'redux-saga-test-plan/matchers'
 import fetch from 'node-fetch'
+import {throwError} from 'redux-saga-test-plan/providers';
+
 
 const buildApiResponse =
   ({
@@ -53,6 +55,44 @@ describe('Signup saga', () => {
         })]
       ])
       .put(push('/dashboard'))
+      .dispatch(signupSubmitted())
+      .silentRun()
+  })
+
+  it('dispatches already in use error message when signup results in 409', () => {
+    return expectSaga(watchForSignupSubmitted)
+      .provide([
+        [select(selectSignupDetails), DETAILS],
+        [matchers.call.fn(fetch, 'http://signup.com/user', request), buildApiResponse({
+          ok: false,
+          status: 409
+        })]
+      ])
+      .put(signupErrorMessage('This email address is already in use.'))
+      .dispatch(signupSubmitted())
+      .silentRun()
+  })
+
+  it('dispatches bad request error message when signup results in 400', () => {
+    return expectSaga(watchForSignupSubmitted)
+      .provide([
+        [select(selectSignupDetails), DETAILS],
+        [matchers.call.fn(fetch, 'http://signup.com/user', request), buildApiResponse({
+          ok: false,
+          status: 400
+        })]
+      ])
+      .put(signupErrorMessage('Invalid data sent.'))
+      .dispatch(signupSubmitted())
+      .silentRun()
+  })
+
+  it('dispatches ? error message when error thrown', () => {
+    return expectSaga(watchForSignupSubmitted)
+      .provide([
+        [select(selectSignupDetails), DETAILS],
+        [matchers.call.fn(fetch, 'http://signup.com/user', request), throwError(new Error())]])
+      .put(signupErrorMessage('Something went wrong, please try again.'))
       .dispatch(signupSubmitted())
       .silentRun()
   })

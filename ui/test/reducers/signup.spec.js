@@ -1,12 +1,13 @@
 import {expect} from "chai";
 import deepFreeze from "deep-freeze";
 import {updateSignup} from "../../src/js/reducers/signup";
-import {signupSubmitted} from "../../src/js/actions/signup";
+import {signupErrorMessage, signupSubmitted} from "../../src/js/actions/signup";
 
 const SIGNUP = {
   email: '',
   password: '',
-  fullName: ''
+  fullName: '',
+  error: ''
 }
 
 describe('signup reducer', () => {
@@ -26,6 +27,18 @@ describe('signup reducer', () => {
 
     expect(updatedState).to.deep.equal({
       ...SIGNUP
+    })
+  })
+
+  it('state changed when signupErrorMessage action is fired', () => {
+    const currentState = deepFreeze(SIGNUP)
+    const action = deepFreeze(signupErrorMessage('an error has occurr'))
+
+    const updatedState = updateSignup(currentState, action)
+
+    expect(updatedState).to.deep.equal({
+      ...SIGNUP,
+      error: 'an error has occurr'
     })
   })
 })
