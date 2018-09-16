@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import deepFreeze from 'deep-freeze'
-import {loginEmailChanged, loginFailure, loginPasswordChanged} from "../../src/js/actions/actions";
+import {loginEmailChanged, loginFailure, loginPasswordChanged} from "../../src/js/actions/login";
 import {updateLogin} from "../../src/js/reducers/login";
 
 const USER1 = {

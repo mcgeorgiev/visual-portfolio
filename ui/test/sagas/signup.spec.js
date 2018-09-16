@@ -1,7 +1,7 @@
 import {expectSaga} from "redux-saga-test-plan";
-import {signupErrorMessage, signupSubmitted} from "../src/js/actions/signup";
-import {watchForSignupSubmitted} from "../src/js/sagas/signup";
-import {selectSignupDetails} from "../src/js/selectors";
+import {signupErrorMessage, signupSubmitted} from "../../src/js/actions/signup";
+import {watchForSignupSubmitted} from "../../src/js/sagas/signup";
+import {selectSignupDetails} from "../../src/js/selectors";
 import {select} from "redux-saga/effects";
 import {push} from 'react-router-redux'
 import {expect} from "chai";

@@ -5,8 +5,8 @@ import { mount, shallow, configure } from 'enzyme'
 import { expect } from 'chai'
 import { MemoryRouter } from 'react-router-dom'
 import deepFreeze from 'deep-freeze'
-import Signup from "../src/js/components/Signup";
-import {signupSubmitted} from "../src/js/actions/signup";
+import Signup from "../../src/js/components/Signup";
+import {signupSubmitted} from "../../src/js/actions/signup";
 
 configure({ adapter: new Adapter() })
 

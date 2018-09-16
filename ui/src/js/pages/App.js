@@ -2,8 +2,8 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Landing from './Landing'
 import Dashboard from './Dashboard'
-import LoginContainer from '../containers/container'
-import { AuthContainer } from './Auth'
+import LoginContainer from '../containers/login'
+import { AuthContainer } from '../components/Auth'
 import SignupContainer from "../containers/signup";
 
 const App = () => (

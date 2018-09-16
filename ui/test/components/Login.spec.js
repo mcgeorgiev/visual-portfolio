@@ -1,5 +1,5 @@
 import React, { cloneElement } from 'react'
-import Login from '../src/js/components/Login'
+import Login from '../../src/js/components/Login'
 import { spy } from 'sinon'
 import Adapter from 'enzyme-adapter-react-16'
 import { mount, shallow, configure } from 'enzyme'

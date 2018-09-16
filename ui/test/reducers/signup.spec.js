@@ -5,7 +5,7 @@ import {
   signupEmailChanged, signupErrorMessage, signupFullNameChanged, signupPasswordChanged,
   signupSubmitted
 } from "../../src/js/actions/signup";
-import {loginEmailChanged} from "../../src/js/actions/actions";
+import {loginEmailChanged} from "../../src/js/actions/login";
 import {updateLogin} from "../../src/js/reducers/login";
 
 const INITIAL = {

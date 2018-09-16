@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './js/components/App';
+import App from './js/pages/App';
 import {Router} from 'react-router-dom';
 import './css/styles/Landing.scss';
 import { Provider } from "react-redux";

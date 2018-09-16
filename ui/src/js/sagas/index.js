@@ -1,4 +1,4 @@
-import {watchForLoginSubmitted, watchForProtectedRedirect, watchForViewRoute} from "./saga";
+import {watchForLoginSubmitted, watchForProtectedRedirect, watchForViewRoute} from "./login";
 import {watchForSignupSubmitted} from "./signup";
 
 export default function* () {

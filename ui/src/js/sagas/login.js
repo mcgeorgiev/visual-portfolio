@@ -5,7 +5,7 @@ import {selectLoginDetails, selectToken} from "../selectors";
 import { push } from 'react-router-redux'
 import {loginSuccessful} from "../actions/session";
 import * as jwt from "jsonwebtoken";
-import {loginFailure} from "../actions/actions";
+import {loginFailure} from "../actions/login";
 
 const goToDashboard = () => push('/dashboard');
 

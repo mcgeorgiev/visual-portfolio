@@ -1,12 +1,12 @@
 import {expect} from 'chai'
 import {call, select, put} from 'redux-saga/effects'
 import fetch from 'node-fetch'
-import {loginUser, protectedRedirect, validateSession} from "../src/js/sagas/saga";
-import {selectLoginDetails, selectToken} from "../src/js/selectors";
+import {loginUser, protectedRedirect, validateSession} from "../../src/js/sagas/login";
+import {selectLoginDetails, selectToken} from "../../src/js/selectors";
 import { push } from 'react-router-redux'
-import {loginSuccessful} from "../src/js/actions/session";
+import {loginSuccessful} from "../../src/js/actions/session";
 import * as jwt from "jsonwebtoken";
-import {loginFailure} from "../src/js/actions/actions";
+import {loginFailure} from "../../src/js/actions/login";
 
 const TOKEN = {token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzb21lIjoicGF5bG9hZCJ9.Joh1R2dYzkRvDkqv3sygm5YyK8Gi4ShZqbhK2gxcs2U"}
 
