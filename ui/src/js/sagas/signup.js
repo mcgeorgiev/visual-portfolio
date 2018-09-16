@@ -24,7 +24,7 @@ export function* signup () {
   try {
     const response = yield call(fetch, "http://localhost:8000/user", request)
     if (response.ok) {
-      yield put(push('/dashboard'))
+      yield put(push('/login'))
     } else if (response.status === 409) {
       yield put(signupErrorMessage('This email address is already in use.'))
     } else if (response.status === 400) {

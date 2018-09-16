@@ -45,7 +45,7 @@ const request = {
 
 describe('Signup saga', () => {
 
-  it('dispatches push to /dashboard page when user signs up successfully', () => {
+  it('dispatches push to /login page when user signs up successfully', () => {
     return expectSaga(watchForSignupSubmitted)
       .provide([
         [select(selectSignupDetails), DETAILS],
@@ -54,7 +54,7 @@ describe('Signup saga', () => {
           status: 201
         })]
       ])
-      .put(push('/dashboard'))
+      .put(push('/login'))
       .dispatch(signupSubmitted())
       .silentRun()
   })
