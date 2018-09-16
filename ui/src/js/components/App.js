@@ -2,9 +2,9 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Landing from './Landing'
 import Dashboard from './Dashboard'
-import LoginContainer from '../container'
+import LoginContainer from '../containers/container'
 import { AuthContainer } from './Auth'
-import Signup from './Signup'
+import SignupContainer from "../containers/signup";
 
 const App = () => (
   <div>
@@ -17,14 +17,14 @@ const App = () => (
           return <Landing component={<LoginContainer />} />
         }}
         />
-        <Route path='/' render={() => {
-          return <Landing component={<Signup />} />
-        }}
-        />
         <Route path='/dashboard' render={() => {
           return <AuthContainer component={<Dashboard />} />
         }}
         />
+        <Route path='/' render={() => {
+          return <Landing component={<SignupContainer />} />
+        }}
+        />uuserbnbnbn
       </Switch>
     </main>
   </div>

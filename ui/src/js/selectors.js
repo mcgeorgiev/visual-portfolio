@@ -28,7 +28,7 @@ export const selectSignupDetails = createSelector(
         email: signup.email,
         password: signup.password
       },
-      full_name: signup.fullname,
+      full_name: signup.fullName,
     }
   }
 )
