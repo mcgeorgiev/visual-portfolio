@@ -1,15 +1,50 @@
 @import '_base';
-@import 'Signup';
 
-.landing-block {
-  margin: auto;
+.form {
+  padding: 0 7% 7% 7%;
+  position: relative;
+}
+
+.form .alert {
+  min-height: 1em;
+  line-height: 1;
+  padding: 0 7% 0 7%;
+}
+
+.alert {
+  color: darkred !important;
+}
+
+.form input,
+.form button
+{
+  width: 100%;
+  box-sizing: border-box;
+  font-size: inherit;
+  display: block;
+  margin-top: 1em;
+  padding: 0.5em;
+  font: inherit;
+}
+
+.form input {
+  border: 2px solid $themeColor-Light;
+  border-radius: 4px;
   background-color: white;
+  color: inherit;
+}
 
-  @include sm {
-    width: 480px;
-  }
+input:focus {
+  border: 2px solid $themeColor-Black;
+  outline: none;
+}
 
-  @include md {
-    width: 768px;
-  }
+.show-password-icon {
+  width: 40px;
+  height: auto;
+  cursor: pointer;
+  position: absolute;
+  right: 5%;
+  margin-top: 1.3em;
+  margin-right: 1em;
 }

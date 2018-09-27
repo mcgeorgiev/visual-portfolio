@@ -1,5 +1,6 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
+import {Footer} from '../components/Footer'
 import Landing from './Landing'
 import Dashboard from './Dashboard'
 import LoginContainer from '../containers/login'
@@ -24,8 +25,9 @@ const App = () => (
         <Route path='/' render={() => {
           return <Landing component={<SignupContainer />} />
         }}
-        />uuserbnbnbn
+        />
       </Switch>
+      <Footer />
     </main>
   </div>
 )

@@ -26,7 +26,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div className='form landing-form'>
+      <div>
         <h2>Login</h2>
         <div className="alert">
           {this.props.error}
