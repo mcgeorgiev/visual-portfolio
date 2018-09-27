@@ -1,0 +1,18 @@
+@import '_base';
+
+.header {
+  background-color: $themeColor-Medium;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.header-title {
+  font-family: $themeFont;
+  color: $themeColor-Green;
+  font-size: $medium-font-size;
+  padding: 0 0.5em 0 0.5em;
+}
+
+.header-button {
+  margin-top: 0.4em;
+}

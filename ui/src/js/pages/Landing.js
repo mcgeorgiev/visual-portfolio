@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Footer} from "../components/Footer";
 
 class Landing extends Component {
   constructor() {
