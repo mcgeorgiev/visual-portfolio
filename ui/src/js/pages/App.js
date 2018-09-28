@@ -15,7 +15,6 @@ const App = () => (
     <meta name='viewport' content='width=device-width, initial-scale=1' />
 
     <main className='mainWrapper'>
-      <Header />
       <Switch>
         <Route path='/login' render={() => {
           return <Landing component={<LoginContainer />} />

@@ -32,7 +32,7 @@ class Signup extends Component {
   render() {
     return (
       <div>
-        <h2> Sign Up </h2>
+        <h2>Sign up for Portfolio</h2>
         <div className="alert">
           {this.props.error}
         </div>
@@ -50,8 +50,8 @@ class Signup extends Component {
           <button type="button" className='signup-button' onClick={this.props.signupSubmitted}>
             SIGN ME UP
           </button>
-          {/*<div className='terms-conditions'>*/} {/*By signing up, you agree to our <b>Terms</b>. Learn how we collect, use and share your data in out <b>Data Policy</b> and how we use cookies and similar technology in out <b>Cookies Policy</b>.*/} {/*</div>*/}
           <p className="center"> Not the first time here ? < Link to="/login"> < b> Log in </b></Link></p>
+          <div className='terms-conditions'> By signing up, you agree to our <b>Terms</b>. Learn how we collect, use and share your data in out <b>Data Policy</b> and how we use cookies and similar technology in out <b>Cookies Policy</b>. </div>
         </form>
       </div>
     );

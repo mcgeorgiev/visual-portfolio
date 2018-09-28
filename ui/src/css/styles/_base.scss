@@ -7,13 +7,14 @@
 $large-font-size: 2em;
 $medium-font-size: 1.5em;
 $small-font-size: 1em;
-$tiny-font-size: 0.75em;
+$tiny-font-size: 0.7em;
 
 body {
   font-family: 'Lato', 'Arial', 'sans-serif';
   font-size: $medium-font-size;
   color: $themeColor-Black;
-  background: linear-gradient(to bottom,  $themeColor-Light 0%, $themeColor-Light 80%, white 20%, white 100%);
+  background-color: $themeColor-Light;
+  //background: linear-gradient(to bottom,  $themeColor-Light 0%, $themeColor-Light 80%, white 20%, white 100%);
 }
 
 html,

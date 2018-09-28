@@ -16,8 +16,7 @@
 }
 
 .form input,
-.form button
-{
+.form button {
   width: 100%;
   box-sizing: border-box;
   font-size: inherit;
@@ -47,4 +46,15 @@ input:focus {
   right: 5%;
   margin-top: 1.3em;
   margin-right: 1em;
+}
+
+.terms-conditions {
+  padding-top: 2%;
+  font-size: $tiny-font-size;
+}
+
+h2 {
+  padding-top: 0.5em;
+  font-family: $themeFont;
+  color: $themeColor-Green;
 }
