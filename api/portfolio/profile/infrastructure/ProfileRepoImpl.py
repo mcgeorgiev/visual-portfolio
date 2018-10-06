@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 
-from portfolio.models import UserRepository, ProfileRepository, Profile
+from portfolio.profile.domain.Profile import Profile
+from portfolio.profile.domain.ProfileRepository import UserRepository, ProfileRepository
+from utils.tools import create_hash
 
 
 class UserRepositoryImpl(UserRepository):
@@ -9,13 +11,15 @@ class UserRepositoryImpl(UserRepository):
             return True
 
     def create(self, email, password):
-        return User().__class__.objects.create_user(
+        user = User().__class__.objects.create_user(
             username=email,
             email=email,
             password=password)
+
+        user.username = create_hash(user.id)
+        return user.save()
 
 
 class ProfileRepositoryImpl(ProfileRepository):
     def create(self, full_name, user):
         return Profile().__class__.objects.create(full_name=full_name, user=user)
-

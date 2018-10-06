@@ -1,11 +1,12 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from portfolio.repositories import UserRepositoryImpl, ProfileRepositoryImpl
-from .models import Profile
+from portfolio.profile.domain.Profile import Profile
+from portfolio.profile.infrastructure.ProfileRepoImpl import UserRepositoryImpl, ProfileRepositoryImpl
 
 user_repository = UserRepositoryImpl()
 user_profile_repository = ProfileRepositoryImpl()
+
 
 class UserService(serializers.ModelSerializer):
     class Meta:

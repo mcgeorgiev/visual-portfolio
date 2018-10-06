@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# APPEND_SLASH = False
 
 # Application definition
 
@@ -38,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    "portfolio",
     'corsheaders',
+    "portfolio",
+    "image",
+    'tests',
 ]
 
 MIDDLEWARE = [
@@ -78,19 +81,26 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-ALL_DATABASES = {
-    'main': {
+# ALL_DATABASES = {
+#     'main': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'ft_db.sqlite3'),
+#     },
+#     'ft_db': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'ft_db.sqlite3')
+#     }
+# }
+# default_database = os.environ.get('PORTFOLIO_DB', 'main')
+#
+# DATABASES = {'default': ALL_DATABASES[default_database]}
+
+DATABASES = {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'ft_db.sqlite3'),
-    },
-    'ft_db': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'ft_db.sqlite3')
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-default_database = os.environ.get('PORTFOLIO_DB', 'main')
-
-DATABASES = {'default': ALL_DATABASES[default_database]}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

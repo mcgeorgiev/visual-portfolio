@@ -57,7 +57,7 @@ export function* watchForProtectedRedirect() {
 
 const verifyToken = token => jwt.verify(token, process.env.SECRET_KEY)
 
-export function* validateSession() {
+export function*  validateSession() {
   const session = yield select(selectToken);
   try {
     yield put(verifyToken(session.token))

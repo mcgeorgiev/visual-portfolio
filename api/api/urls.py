@@ -16,13 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
-from portfolio import views
+
+import portfolio.profile.resource.ProfileResource
 from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^api/login$', views.login, name='login'),
-    url(r'^user$', views.UserView.as_view(), name="create"),
+    url(r'^profile', portfolio.profile.resource.ProfileResource.ProfileView.as_view(), name="create"),
     url(r'^api-token-auth/', obtain_jwt_token),
-    url(r'^api-token-verify/', verify_jwt_token),
+    # url(r'^api-token-verify/', verify_jwt_token),
 ]
