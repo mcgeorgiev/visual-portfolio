@@ -32,9 +32,6 @@ class ImageService:
         self.repo = repo
 
     def create(self, validated_data):
-        # serializer = ImageSerializer(data=validated_data)
-        # serializer.is_valid()
-        # validated_data = serializer.validated_data
         user = validated_data["user"]
 
         if self.repo.user_exists(user.username):
