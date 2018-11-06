@@ -17,11 +17,22 @@ const persistConfig = {
   storage,
 }
 
+const customMiddleWare = store => next => action => {
+  console.log("Middleware triggered:", action)
+  console.log(next)
+  console.log(store.getState())
+  next(action);
+  return {
+    ...store.getState(),
+    login: {foo: "bar"}
+  }
+}
+
 const persistedReducer = persistReducer(persistConfig, reducers)
 
 export const store = createStore(
   persistedReducer,
-  composeEnhancers(applyMiddleware(sagaMiddleware, routerMiddleware(history)))
+  composeEnhancers(applyMiddleware(sagaMiddleware, routerMiddleware(history), customMiddleWare))
 )
 
 export const persistor = persistStore(store)
