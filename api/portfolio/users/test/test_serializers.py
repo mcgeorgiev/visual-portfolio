@@ -6,7 +6,6 @@ from ..serializers import UserSerializer
 
 
 class TestCreateUserSerializer(TestCase):
-
     def setUp(self):
         self.user_data = model_to_dict(UserFactory.build())
 
@@ -23,13 +22,11 @@ class TestCreateUserSerializer(TestCase):
         self.assertTrue(serializer.is_valid())
 
         user = serializer.save()
-        self.assertTrue(check_password(self.user_data.get('password'), user.password))
+        self.assertTrue(check_password(self.user_data.get("password"), user.password))
 
     def test_serializer_creates_user(self):
         serializer = UserSerializer(data=self.user_data)
         self.assertTrue(serializer.is_valid())
 
         user = serializer.save()
-        self.assertTrue(user.email, self.user_data.get('email'))
-
-
+        self.assertTrue(user.email, self.user_data.get("email"))

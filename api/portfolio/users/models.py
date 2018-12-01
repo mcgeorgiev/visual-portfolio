@@ -4,6 +4,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password):
         user = self.model(email=email, password=password)
@@ -29,7 +30,7 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractBaseUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
 
     objects = CustomUserManager()
 
