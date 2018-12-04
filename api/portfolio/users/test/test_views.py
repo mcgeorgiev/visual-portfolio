@@ -1,5 +1,3 @@
-import json
-
 from rest_framework.test import APITestCase
 from rest_framework import status
 from faker import Faker
@@ -13,7 +11,6 @@ class TestUserDetailTestCase(APITestCase):
         self.email = fake.email()
         self.password = fake.password()
         User.objects.create_user(email=self.email, password=self.password)
-
 
     def test_post_creates_a_user(self):
         new_email = fake.email()
@@ -32,5 +29,4 @@ class TestUserDetailTestCase(APITestCase):
         response = self.client.post("/api/token/", payload)
 
         self.assertIs(response.status_code, status.HTTP_200_OK)
-        self.assertIsNotNone(response.data.get('access'))
-
+        self.assertIsNotNone(response.data.get("access"))
