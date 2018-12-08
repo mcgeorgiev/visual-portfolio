@@ -1,13 +1,13 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects'
 import fetch from 'node-fetch'
-import "regenerator-runtime/runtime";
-import {selectLoginDetails, selectToken} from "../selectors";
+import 'regenerator-runtime/runtime'
+import { selectLoginDetails, selectToken } from '../selectors'
 import { push } from 'react-router-redux'
-import {loginSuccessful} from "../actions/session";
-import * as jwt from "jsonwebtoken";
-import {loginFailure} from "../actions/login";
+import { loginSuccessful } from '../actions/session'
+import * as jwt from 'jsonwebtoken'
+import { loginFailure } from '../actions/login'
 
-const goToDashboard = () => push('/dashboard');
+const goToDashboard = () => push('/dashboard')
 
 const createLoginRequest = (loginDetails) => {
   return {
@@ -21,14 +21,12 @@ const createLoginRequest = (loginDetails) => {
 
 const parseBody = response => { return response.json() }
 
-export function* loginUser() {
-
-  const loginDetails = yield select(selectLoginDetails);
+export function * loginUser () {
+  const loginDetails = yield select(selectLoginDetails)
   const loginRequest = yield createLoginRequest(loginDetails)
 
   try {
-    const response = yield call(fetch, "http://localhost:8000/api-token-auth/", loginRequest)
-
+    const response = yield call(fetch, `${process.env.API_URL}/api/token/`, loginRequest)
     if (response.ok) {
       const jwt = yield parseBody(response)
       yield put(loginSuccessful(jwt.token))
@@ -41,24 +39,24 @@ export function* loginUser() {
   }
 }
 
-export function* watchForLoginSubmitted() {
-  yield takeLatest("LOGIN_DETAILS_SUBMITTED", loginUser);
+export function * watchForLoginSubmitted () {
+  yield takeLatest('LOGIN_DETAILS_SUBMITTED', loginUser)
 }
 
 const goToLogin = () => push('/login')
 
-export function* protectedRedirect() {
+export function * protectedRedirect () {
   yield put(goToLogin())
 }
 
-export function* watchForProtectedRedirect() {
-  yield takeLatest("LOGIN_REDIRECT", protectedRedirect);
+export function * watchForProtectedRedirect () {
+  yield takeLatest('LOGIN_REDIRECT', protectedRedirect)
 }
 
 const verifyToken = token => jwt.verify(token, process.env.SECRET_KEY)
 
-export function*  validateSession() {
-  const session = yield select(selectToken);
+export function * validateSession () {
+  const session = yield select(selectToken)
   try {
     yield put(verifyToken(session.token))
   } catch (err) {
@@ -66,6 +64,6 @@ export function*  validateSession() {
   }
 }
 
-export function* watchForViewRoute() {
-  yield takeLatest("VIEW_ROUTE", validateSession);
+export function * watchForViewRoute () {
+  yield takeLatest('VIEW_ROUTE', validateSession)
 }

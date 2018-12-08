@@ -9,6 +9,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 class Common(Configuration):
 
     INSTALLED_APPS = (
+        "corsheaders",
+
+
         "django.contrib.contenttypes",
         "django.contrib.admin",
         "django.contrib.auth",
@@ -24,6 +27,7 @@ class Common(Configuration):
 
     # https://docs.djangoproject.com/en/2.0/topics/http/middleware/
     MIDDLEWARE = (
+        'corsheaders.middleware.CorsMiddleware',
         "django.middleware.security.SecurityMiddleware",
         "django.contrib.sessions.middleware.SessionMiddleware",
         "django.middleware.common.CommonMiddleware",
@@ -172,3 +176,5 @@ class Common(Configuration):
             "rest_framework_simplejwt.authentication.JWTAuthentication",
         ),
     }
+
+    CORS_ORIGIN_ALLOW_ALL = True

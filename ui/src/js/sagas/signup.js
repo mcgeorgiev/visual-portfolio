@@ -1,9 +1,9 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects'
 import fetch from 'node-fetch'
-import "regenerator-runtime/runtime";
+import 'regenerator-runtime/runtime'
 import { push } from 'react-router-redux'
-import {selectSignupDetails} from "../selectors";
-import {signupErrorMessage} from "../actions/signup";
+import { selectSignupDetails } from '../selectors'
+import { signupErrorMessage } from '../actions/signup'
 
 const createSignupRequest = (signupDetails) => {
   return {
@@ -15,14 +15,14 @@ const createSignupRequest = (signupDetails) => {
   }
 }
 
-export function* signup () {
+export function * signup () {
   const [signupDetails] = yield [
     select(selectSignupDetails)
   ]
 
   const request = yield createSignupRequest(signupDetails)
   try {
-    const response = yield call(fetch, "http://localhost:8000/user", request)
+    const response = yield call(fetch, `${process.env.API_URL}/api/v1/users/`, request)
     if (response.ok) {
       yield put(push('/login'))
     } else if (response.status === 409) {
@@ -35,6 +35,6 @@ export function* signup () {
   }
 }
 
-export function* watchForSignupSubmitted() {
-  yield takeLatest("SIGNUP_SUBMITTED", signup);
+export function * watchForSignupSubmitted () {
+  yield takeLatest('SIGNUP_SUBMITTED', signup)
 }

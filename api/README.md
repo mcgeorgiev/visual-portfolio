@@ -1,17 +1,12 @@
-# visual_portfolio
-
-[![Build Status](https://travis-ci.org/mcgeorgiev/visual_portfolio.svg?branch=master)](https://travis-ci.org/mcgeorgiev/visual_portfolio)
-[![Built with](https://img.shields.io/badge/Built_with-Cookiecutter_Django_Rest-F7B633.svg)](https://github.com/agconti/cookiecutter-django-rest)
-
-Its all about a Weissman score > 5.0. Check out the project's [documentation](http://mcgeorgiev.github.io/visual_portfolio/).
-
-# Prerequisites
-
-- [Docker](https://docs.docker.com/docker-for-mac/install/)  
-- [Travis CLI](http://blog.travis-ci.com/2013-01-14-new-client/)
-- [Heroku Toolbelt](https://toolbelt.heroku.com/)
-
 # Local Development
+
+## To create local user data
+
+`python manage.py loaddata portfolio/fixtures/initial_data.json`
+
+## Edit local user data
+
+`python manage.py dumpdata users.User --indent 4 > portfolio/fixtures/initial_data.json`
 
 Start the dev server for local development:
 ```bash
@@ -24,39 +19,6 @@ Run a command inside the docker container:
 docker-compose run --rm web [command]
 ```
 
-# Continuous Deployment
-
-Deployment is automated via Travis. When builds pass on the master or qa branch, Travis will deploy that branch to Heroku. Follow these steps to enable this feature.
-
-Initialize the production server:
-
-```
-heroku create portfolio-prod --remote prod && \
-    heroku addons:create newrelic:wayne --app portfolio-prod && \
-    heroku addons:create heroku-postgresql:hobby-dev --app portfolio-prod && \
-    heroku config:set DJANGO_SECRET_KEY=`openssl rand -base64 32` \
-        DJANGO_AWS_ACCESS_KEY_ID="Add your id" \
-        DJANGO_AWS_SECRET_ACCESS_KEY="Add your key" \
-        DJANGO_AWS_STORAGE_BUCKET_NAME="portfolio-prod" \
-        DJANGO_CONFIGURATION="Production" \
-        DJANGO_SETTINGS_MODULE="portfolio.config" \
-        --app portfolio-prod
-```
-
-Initialize the qa server:
-
-```
-heroku create portfolio-qa --remote qa && \
-    heroku addons:create newrelic:wayne --app portfolio-qa && \
-    heroku addons:create heroku-postgresql:hobby-dev --app portfolio-qa && \
-    heroku config:set DJANGO_SECRET_KEY=`openssl rand -base64 32` \
-        DJANGO_AWS_ACCESS_KEY_ID="Add your id" \
-        DJANGO_AWS_SECRET_ACCESS_KEY="Add your key" \
-        DJANGO_AWS_STORAGE_BUCKET_NAME="portfolio-qa" \
-        DJANGO_CONFIGURATION="Production" \
-        DJANGO_SETTINGS_MODULE="portfolio.config" \
-        --app portfolio-qa
-```
 
 Securely add your Heroku credentials to Travis so that it can automatically deploy your changes:
 
