@@ -1,6 +1,6 @@
 export const signupSubmitted = () => ({
   type: 'SIGNUP_SUBMITTED',
-});
+})
 
 export const signupErrorMessage = error => ({
   type: 'SIGNUP_ERROR',
@@ -15,9 +15,4 @@ export const signupEmailChanged = email => ({
 export const signupPasswordChanged = password => ({
   type: 'SIGNUP_PASSWORD_CHANGED',
   password
-})
-
-export const signupFullNameChanged = fullName => ({
-  type: 'SIGNUP_FULLNAME_CHANGED',
-  fullName
 })
