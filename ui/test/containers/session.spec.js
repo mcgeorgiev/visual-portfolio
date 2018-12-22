@@ -1,7 +1,6 @@
-import {spy} from "sinon";
-import {expect} from "chai";
-import {mapDispatchToProps} from "../../src/js/components/Auth";
-import {viewRoute} from "../../src/js/actions/session";
+import { spy } from 'sinon'
+import { mapDispatchToProps } from '../../src/js/components/Auth'
+import { viewRoute } from '../../src/js/actions/session'
 
 describe('<Auth /> ', () => {
   it('triggers viewRoute when route accessed', () => {
@@ -10,6 +9,6 @@ describe('<Auth /> ', () => {
 
     dispatchProps.viewRoute()
 
-    expect(dispatch.calledWith(viewRoute())).to.be.true
+    expect(dispatch.calledWith(viewRoute())).toBeTruthy()
   })
 })

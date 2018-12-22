@@ -1,7 +1,6 @@
-import { spy } from 'sinon';
-import {expect} from 'chai'
-import {mapDispatchToProps} from "../../src/js/containers/login";
-import {loginEmailChanged, loginPasswordChanged, onLoginDetailsSubmitted} from "../../src/js/actions/login";
+import { spy } from 'sinon'
+import { mapDispatchToProps } from '../../src/js/containers/login'
+import { loginEmailChanged, loginPasswordChanged, onLoginDetailsSubmitted } from '../../src/js/actions/login'
 
 describe('<Login /> ', () => {
   it('triggers email changed action when email is changed', () => {
@@ -10,7 +9,7 @@ describe('<Login /> ', () => {
 
     dispatchProps.loginEmailChanged('email@example.com')
 
-    expect(dispatch.calledWith(loginEmailChanged('email@example.com'))).to.be.true
+    expect(dispatch.calledWith(loginEmailChanged('email@example.com'))).toBeTruthy()
   })
 
   it('triggers password changed action when password is changed', () => {
@@ -19,7 +18,7 @@ describe('<Login /> ', () => {
 
     dispatchProps.loginPasswordChanged('Password123')
 
-    expect(dispatch.calledWith(loginPasswordChanged("Password123"))).to.be.true
+    expect(dispatch.calledWith(loginPasswordChanged('Password123'))).toBeTruthy()
   })
 
   it('triggers submit clicked action when button is clicked', () => {
@@ -28,6 +27,6 @@ describe('<Login /> ', () => {
 
     dispatchProps.onLoginDetailsSubmitted()
 
-    expect(dispatch.calledWith(onLoginDetailsSubmitted())).to.be.true
+    expect(dispatch.calledWith(onLoginDetailsSubmitted())).toBeTruthy()
   })
 })

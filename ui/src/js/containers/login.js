@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
-import Login from "../components/Login";
-import {loginEmailChanged, loginPasswordChanged, onLoginDetailsSubmitted} from "../actions/login";
+import { connect } from 'react-redux'
+import Login from '../components/Login'
+import { loginEmailChanged, loginPasswordChanged, onLoginDetailsSubmitted } from '../actions/login'
 
 const mapStateToProps = state => {
   return {
@@ -8,7 +8,7 @@ const mapStateToProps = state => {
     password: state.login.password,
     error: state.login.error
   }
-};
+}
 
 export const mapDispatchToProps = dispatch => {
   return {
@@ -16,11 +16,11 @@ export const mapDispatchToProps = dispatch => {
     loginPasswordChanged: password => dispatch(loginPasswordChanged(password)),
     onLoginDetailsSubmitted: () => dispatch(onLoginDetailsSubmitted())
   }
-};
+}
 
 const LoginContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Login);
+)(Login)
 
-export default LoginContainer;
+export default LoginContainer

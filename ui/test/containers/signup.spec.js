@@ -1,10 +1,9 @@
-import {spy} from "sinon";
-import {expect} from "chai";
-import {mapDispatchToProps} from "../../src/js/containers/signup";
+import { spy } from 'sinon'
+import { mapDispatchToProps } from '../../src/js/containers/signup'
 import {
   signupEmailChanged, signupErrorMessage, signupFullNameChanged,
   signupPasswordChanged, signupSubmitted
-} from "../../src/js/actions/signup";
+} from '../../src/js/actions/signup'
 
 describe('<Signup /> ', () => {
   it('triggers email changed action when email is changed', () => {
@@ -13,7 +12,7 @@ describe('<Signup /> ', () => {
 
     dispatchProps.signupEmailChanged('email@example.com')
 
-    expect(dispatch.calledWith(signupEmailChanged('email@example.com'))).to.be.true
+    expect(dispatch.calledWith(signupEmailChanged('email@example.com'))).toBeTruthy()
   })
 
   it('triggers password changed action when password is changed', () => {
@@ -22,7 +21,7 @@ describe('<Signup /> ', () => {
 
     dispatchProps.signupPasswordChanged('Password123')
 
-    expect(dispatch.calledWith(signupPasswordChanged("Password123"))).to.be.true
+    expect(dispatch.calledWith(signupPasswordChanged('Password123'))).toBeTruthy()
   })
 
   it('triggers fullName changed action when fullName is changed', () => {
@@ -31,7 +30,7 @@ describe('<Signup /> ', () => {
 
     dispatchProps.signupFullNameChanged('joe bloggs')
 
-    expect(dispatch.calledWith(signupFullNameChanged("joe bloggs"))).to.be.true
+    expect(dispatch.calledWith(signupFullNameChanged('joe bloggs'))).toBeTruthy()
   })
 
   it('triggers error changed action when error is changed', () => {
@@ -40,7 +39,7 @@ describe('<Signup /> ', () => {
 
     dispatchProps.signupErrorMessage('joe bloggs')
 
-    expect(dispatch.calledWith(signupErrorMessage("joe bloggs"))).to.be.true
+    expect(dispatch.calledWith(signupErrorMessage('joe bloggs'))).toBeTruthy()
   })
 
   it('triggers submit clicked action when button is clicked', () => {
@@ -49,6 +48,6 @@ describe('<Signup /> ', () => {
 
     dispatchProps.signupSubmitted()
 
-    expect(dispatch.calledWith(signupSubmitted())).to.be.true
+    expect(dispatch.calledWith(signupSubmitted())).toBeTruthy()
   })
 })

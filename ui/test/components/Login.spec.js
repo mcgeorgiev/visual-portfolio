@@ -5,7 +5,6 @@ import Adapter from 'enzyme-adapter-react-16'
 import { mount, shallow, configure } from 'enzyme'
 import { expect } from 'chai'
 import { MemoryRouter } from 'react-router-dom'
-import deepFreeze from 'deep-freeze'
 
 configure({ adapter: new Adapter() })
 
