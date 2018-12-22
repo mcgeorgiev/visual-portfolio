@@ -29,7 +29,7 @@ export function * loginUser () {
     const response = yield call(fetch, `${process.env.API_URL}/api/token/`, loginRequest)
     if (response.ok) {
       const jwt = yield parseBody(response)
-      yield put(loginSuccessful(jwt.token))
+      yield put(loginSuccessful(jwt.access))
       yield put(goToDashboard())
     } else {
       yield put(loginFailure())

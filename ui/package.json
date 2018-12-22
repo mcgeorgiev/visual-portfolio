@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --config ./webpack.config.js --mode development",
+    "start": "webpack-dev-server --config ./webpack.config.js --mode development --history-api-fallback",
     "test": "jest --verbose",
     "json-server": "json-server --watch db.json",
     "cypress:open": "cypress open",
-    "cypress": "cypress run --spec 'cypress/integration/signup.spec.js'",
+    "cypress": "cypress run --spec 'cypress/integration/auth.spec.js'",
     "build": "webpack"
   },
   "keywords": [],

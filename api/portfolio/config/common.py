@@ -21,6 +21,7 @@ class Common(Configuration):
         # Third party apps
         "rest_framework",  # utilities for rest apis
         "django_filters",  # for filtering rest endpoints
+        "django_extensions", # for running scripts
         # Your apps
         "portfolio.users",
     )
@@ -39,7 +40,7 @@ class Common(Configuration):
 
     ALLOWED_HOSTS = ["*"]
     ROOT_URLCONF = "portfolio.urls"
-    SECRET_KEY = "sdfsfsdfsdf"  # os.getenv('DJANGO_SECRET_KEY')
+    SECRET_KEY = "f_w^fy7oax5&iln&l@a4z@*m3ts584%pbx*fnxd7108$rj84t3"  # os.getenv('DJANGO_SECRET_KEY')
     WSGI_APPLICATION = "portfolio.wsgi.application"
 
     # Email
